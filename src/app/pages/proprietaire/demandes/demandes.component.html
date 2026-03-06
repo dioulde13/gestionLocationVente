@@ -42,7 +42,7 @@
             <tr>
                 <td>
                     <div class="vehicle-cell">
-                        <img [src]="appData.getCarPlaceholder(demande.vehicle?.marque + ' ' + demande.vehicle?.modele)"
+                        <img [src]="(demande.vehicle?.images && demande.vehicle!.images.length > 0) ? demande.vehicle!.images[0] : appData.getCarPlaceholder(demande.vehicle?.marque + ' ' + demande.vehicle?.modele)"
                             class="tiny-img">
                         <div>
                             <div class="font-bold">{{ demande.vehicle?.marque }} {{ demande.vehicle?.modele }}</div>

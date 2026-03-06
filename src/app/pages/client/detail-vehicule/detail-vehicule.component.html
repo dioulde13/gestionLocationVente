@@ -11,7 +11,11 @@
     <!-- Header Image Section -->
     <div class="detail-header-image mb-8">
         <div class="image-inner">
+            @if (vehicle.images && vehicle.images.length > 0) {
+            <img [src]="vehicle.images[0]" [alt]="vehicle.marque + ' ' + vehicle.modele" class="real-image">
+            } @else {
             <img [src]="appData.getCarPlaceholder(vehicle.marque + ' ' + vehicle.modele)" [alt]="vehicle.marque">
+            }
             <div class="image-badges">
                 <span class="glass-badge">{{ vehicle.categorie }}</span>
                 <span class="glass-badge status-available">
