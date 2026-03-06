@@ -1,0 +1,33 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Gestion des tarifs</h1>
+    <p class="page-subtitle">Modifiez les tarifs de vos véhicules</p>
+</div>
+@for (v of vehicles; track v.id) {
+<div class="card mb-4">
+    <div class="card-header">
+        <div class="flex items-center justify-between">
+            <h4 class="panel-title">{{ v.marque }} {{ v.modele }} ({{ v.annee }})</h4>
+            <span class="badge" [class.badge-info]="v.type === 'location'" [class.badge-success]="v.type === 'vente'">{{
+                v.type === 'vente' ? '💰 Vente' : '📍 Location' }}</span>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (v.type === 'vente') {
+        <div class="grid grid-cols-1 gap-4">
+            <div class="form-group"><label class="form-label">Prix de vente (GNF)</label><input type="number"
+                    class="form-input" [(ngModel)]="v.prixVente" [name]="'pv'+v.id"></div>
+        </div>
+        } @else {
+        <div class="grid grid-cols-3 gap-4">
+            <div class="form-group"><label class="form-label">Prix/jour (GNF)</label><input type="number"
+                    class="form-input" [(ngModel)]="v.prixJour" [name]="'pj'+v.id"></div>
+            <div class="form-group"><label class="form-label">Prix/semaine (GNF)</label><input type="number"
+                    class="form-input" [(ngModel)]="v.prixSemaine" [name]="'ps'+v.id"></div>
+            <div class="form-group"><label class="form-label">Prix/mois (GNF)</label><input type="number"
+                    class="form-input" [(ngModel)]="v.prixMois" [name]="'pm'+v.id"></div>
+        </div>
+        }
+        <button class="btn btn-primary btn-sm mt-2" (click)="save(v)">Enregistrer</button>
+    </div>
+</div>
+}

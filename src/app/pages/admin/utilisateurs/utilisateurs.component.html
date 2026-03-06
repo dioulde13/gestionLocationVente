@@ -1,0 +1,62 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Gestion des utilisateurs</h1>
+    <p class="page-subtitle">{{ users.length }} utilisateur(s) enregistrés</p>
+</div>
+<div class="panel">
+    <div class="panel-header">
+        <div class="search-box">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" [(ngModel)]="searchTerm" placeholder="Rechercher un utilisateur...">
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Rôle</th>
+                    <th>Statut</th>
+                    <th>KYC</th>
+                    <th>Inscription</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (u of filteredUsers; track u.id) {
+                <tr>
+                    <td>
+                        <div class="table-user">
+                            <div class="table-user-avatar" [style.background]="appData.getAvatarColor(u.prenom+u.nom)">
+                                {{ fmt.initials(u.prenom+' '+u.nom) }}
+                            </div>
+                            <div class="table-user-info">
+                                <span class="table-user-name">{{ u.prenom }} {{ u.nom }}</span>
+                                <span class="table-user-email">{{ u.email }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="badge badge-primary">{{ u.role }}</span></td>
+                    <td><app-status-badge [status]="u.statut"></app-status-badge></td>
+                    <td><app-status-badge [status]="u.kyc"></app-status-badge></td>
+                    <td>{{ fmt.dateShort(u.dateInscription) }}</td>
+                    <td>
+                        <div class="table-actions">
+                            <a class="btn btn-ghost btn-xs" [routerLink]="['/admin/utilisateur', u.id]"
+                                title="Voir détails">👁</a>
+                            <button class="btn btn-ghost btn-xs" (click)="askToggleStatus(u)"
+                                [title]="u.statut === 'actif' ? 'Suspendre' : 'Activer'">
+                                {{ u.statut === 'actif' ? '🚫' : '✅' }}
+                            </button>
+                            <button class="btn btn-ghost btn-xs text-danger" (click)="askBanUser(u)" title="Bannir">
+                                🗑
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- <app-confirm-modal> removed, using global modal -->

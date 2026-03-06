@@ -1,0 +1,36 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Déclarer un incident</h1>
+    <p class="page-subtitle">Signalez un problème survenu lors de votre location</p>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="panel-title">Nouveau signalement</h3>
+    </div>
+    <div class="card-body">
+        <form (ngSubmit)="submit()">
+            <div class="form-group">
+                <label class="form-label">Location concernée</label>
+                <select class="form-input" [(ngModel)]="form.locationId" name="loc">
+                    @for (l of myLocations; track l.id) {
+                    <option [value]="l.id">{{ getVehicle(l.vehiculeId) }} ({{ l.dateDebut }})</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Type d'incident</label>
+                <select class="form-input" [(ngModel)]="form.type" name="type">
+                    <option value="panne">Panne</option>
+                    <option value="accident">Accident</option>
+                    <option value="vol">Vol</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea class="form-input" rows="4" placeholder="Décrivez l'incident" [(ngModel)]="form.description"
+                    name="desc"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Envoyer le signalement</button>
+        </form>
+    </div>
+</div>

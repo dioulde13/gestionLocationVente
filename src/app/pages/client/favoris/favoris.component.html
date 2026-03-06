@@ -1,0 +1,16 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Mes favoris</h1>
+    <p class="page-subtitle">{{ favVehicles.length }} véhicule(s)</p>
+</div>
+<div class="content-grid stagger-children">
+    @for (v of favVehicles; track v.id) {
+    <app-vehicle-card [vehicle]="v" [showFav]="true"></app-vehicle-card>
+    }
+    @empty {
+    <div class="empty-state" style="grid-column:1/-1;">
+        <div class="empty-state-icon">💛</div>
+        <h3 class="empty-state-title">Aucun favori</h3>
+        <p class="text-sm text-secondary">Ajoutez des véhicules à vos favoris</p>
+    </div>
+    }
+</div>

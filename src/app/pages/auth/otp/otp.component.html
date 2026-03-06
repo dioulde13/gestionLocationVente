@@ -1,0 +1,55 @@
+<div class="auth-layout">
+    <div class="auth-left">
+        <div class="auth-card animate-scale-in">
+            <div class="auth-logo">
+                <img class="img-fluid" src="assets/logo.JPG" alt="AutoLoc" height="200" width="200" />
+                <!-- <div class="auth-logo-icon"><i class="ph ph-car-profile" style="color: white;"></i></div>
+                <div class="auth-logo-text">Auto<span>Loc</span></div> -->
+            </div>
+            <h1 class="auth-title">Vérification OTP</h1>
+            <p class="auth-subtitle">Entrez le code à 4 chiffres envoyé à votre adresse email.</p>
+
+            <form (ngSubmit)="onSubmit()">
+                <div class="otp-container">
+                    @for (i of [0,1,2,3]; track i) {
+                    <input #otpInput type="text" maxlength="1" class="otp-input" [(ngModel)]="digits[i]"
+                        [name]="'digit'+i" (input)="onInput(i)" (keydown)="onKeydown($event, i)"
+                        (paste)="onPaste($event)">
+                    }
+                </div>
+
+                @if (otpHint) {
+                <div class="alert alert-info" style="margin-bottom: var(--space-4);">
+                    <span class="alert-icon"><i class="ph ph-info"></i></span>
+                    <div>
+                        <strong>Mode démo</strong> — Code OTP: <strong>{{ otpHint.otp }}</strong>
+                        <br><small>Email: {{ otpHint.email }}</small>
+                    </div>
+                </div>
+                }
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" [class.btn-loading]="loading"
+                    [disabled]="loading">
+                    {{ loading ? 'Vérification...' : 'Vérifier' }}
+                </button>
+            </form>
+
+            <div style="text-align:center;margin-top:var(--space-4);">
+                <p class="text-sm text-secondary">Vous n'avez pas reçu le code ?</p>
+                <button class="btn btn-ghost btn-sm" (click)="resendOTP()">Renvoyer le code</button>
+            </div>
+
+            <div class="auth-footer">
+                <a routerLink="/auth/connexion">← Retour à la connexion</a>
+            </div>
+        </div>
+    </div>
+    <div class="auth-right">
+        <div class="auth-right-content">
+            <div style="font-size:5rem;margin-bottom:var(--space-6);"><i class="ph ph-shield-check"
+                    style="color:rgba(255,255,255,0.9);"></i></div>
+            <h2>Vérification sécurisée</h2>
+            <p>Pour votre sécurité, nous vérifions votre identité avec un code à usage unique.</p>
+        </div>
+    </div>
+</div>

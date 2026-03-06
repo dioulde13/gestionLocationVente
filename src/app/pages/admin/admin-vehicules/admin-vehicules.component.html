@@ -1,0 +1,70 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Tous les véhicules</h1>
+    <p class="page-subtitle">{{ allVehicles.length }} véhicule(s) sur la plateforme</p>
+</div>
+<div class="panel">
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Véhicule</th>
+                    <th>Propriétaire</th>
+                    <th>Type</th>
+                    <th>Prix</th>
+                    <th>Disponibilité</th>
+                    <!-- <th>Statut</th> -->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (v of allVehicles; track v.id) {
+                <tr>
+                    <td>
+                        <span class="font-medium">{{ v.marque }} {{ v.modele }}</span><br>
+                        <span class="text-xs text-tertiary">{{ v.annee }} · {{ v.immatriculation }}</span>
+                    </td>
+                    <td>{{ getOwner(v.proprietaireId) }}</td>
+                    <td>
+                        <span class="badge" [class.badge-info]="v.type === 'location'"
+                            [class.badge-success]="v.type === 'vente'">
+                            {{ v.type === 'vente' ? 'Vente' : 'Location' }}
+                        </span>
+                    </td>
+                    <td>
+                        @if (v.type === 'vente') {
+                        {{ fmt.currency(v.prixVente || 0) }}
+                        } @else {
+                        {{ fmt.currency(v.prixJour || 0) }}<span class="text-xs">/j</span>
+                        }
+                    </td>
+                    <td>
+                        <span class="badge" [class.badge-success]="v.disponible" [class.badge-danger]="!v.disponible">
+                            {{ v.disponible ? 'Disponible' : 'Indisponible' }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="table-actions">
+                            <a class="btn btn-ghost btn-xs" [routerLink]="['/admin/vehicule', v.id]"
+                                title="Voir détails">👁</a>
+                            @if (v.statut === 'en_attente') {
+                            <button class="btn btn-ghost btn-xs text-success" (click)="askUpdateStatus(v.id, 'valide')"
+                                title="Valider">✅</button>
+                            <button class="btn btn-ghost btn-xs text-danger" (click)="askUpdateStatus(v.id, 'refuse')"
+                                title="Refuser">✕</button>
+                            } @else if (v.statut === 'valide') {
+                            <button class="btn btn-ghost btn-xs text-warning"
+                                (click)="askUpdateStatus(v.id, 'suspendu')" title="Suspendre">🚫</button>
+                            } @else {
+                            <button class="btn btn-ghost btn-xs text-success" (click)="askUpdateStatus(v.id, 'valide')"
+                                title="Réactiver">✅</button>
+                            }
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- <app-confirm-modal> removed, using global modal -->

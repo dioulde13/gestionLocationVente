@@ -1,0 +1,119 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Tableau de bord administrateur</h1>
+    <p class="page-subtitle">Vue d'ensemble de la plateforme AutoLoc Pro.</p>
+</div>
+
+<div class="stats-grid stagger-children">
+    <div class="stat-card stat-blue">
+        <div class="stat-card-header">
+            <div class="stat-card-icon blue"><i class="ph ph-users" style="font-size: 24px;"></i></div><span
+                class="stat-card-trend up">+5</span>
+        </div>
+        <div class="stat-card-value">{{ totalUsers }}</div>
+        <div class="stat-card-label">Utilisateurs</div>
+    </div>
+    <div class="stat-card stat-green">
+        <div class="stat-card-header">
+            <div class="stat-card-icon green"><i class="ph ph-car-profile" style="font-size: 24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ totalVehicles }}</div>
+        <div class="stat-card-label">Véhicules</div>
+    </div>
+    <div class="stat-card stat-amber">
+        <div class="stat-card-header">
+            <div class="stat-card-icon amber"><i class="ph ph-storefront" style="font-size: 24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ totalAgences }}</div>
+        <div class="stat-card-label">Agences</div>
+    </div>
+    <div class="stat-card stat-red">
+        <div class="stat-card-header">
+            <div class="stat-card-icon red"><i class="ph ph-shield-check" style="font-size: 24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ pendingKyc }}</div>
+        <div class="stat-card-label">KYC en attente</div>
+    </div>
+    <div class="stat-card stat-purple">
+        <div class="stat-card-header">
+            <div class="stat-card-icon purple"><i class="ph ph-currency-circle-dollar" style="font-size: 24px;"></i>
+            </div><span class="stat-card-trend up">+20%</span>
+        </div>
+        <div class="stat-card-value">{{ format.currency(totalRevenue) }}</div>
+        <div class="stat-card-label">Revenus totaux (GNF)</div>
+    </div>
+    <div class="stat-card stat-green">
+        <div class="stat-card-header">
+            <div class="stat-card-icon green"><i class="ph ph-clipboard-text" style="font-size: 24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ activeRentals }}</div>
+        <div class="stat-card-label">Locations actives</div>
+    </div>
+</div>
+
+<div class="two-column">
+    <div class="panel">
+        <div class="panel-header">
+            <h3 class="panel-title">Activité récente</h3>
+            <a routerLink="/admin/audit-log" class="btn btn-ghost btn-xs">Voir tout →</a>
+        </div>
+        <div>
+            @for (log of recentActivity; track log.id) {
+            <div class="flex items-center gap-3"
+                style="padding:var(--space-3); border-bottom:1px solid var(--border-light);">
+                <div
+                    style="width:32px;height:32px;border-radius:50%;background:var(--primary-50);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">
+                    {{ getLogIcon(log.action) }}
+                </div>
+                <div class="flex-1">
+                    <div class="text-sm font-medium">{{ log.action }}</div>
+                    <div class="text-xs text-tertiary">{{ log.details }}</div>
+                </div>
+                <div class="text-xs text-tertiary">{{ format.timeAgo(log.date) }}</div>
+            </div>
+            }
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-header">
+            <h3 class="panel-title">Nouveaux utilisateurs</h3>
+            <a routerLink="/admin/utilisateurs" class="btn btn-ghost btn-xs">Voir tout →</a>
+        </div>
+        <div>
+            @for (u of newUsers; track u.id) {
+            <div class="flex items-center justify-between"
+                style="padding:var(--space-3); border-bottom:1px solid var(--border-light);">
+                <div class="flex items-center gap-3">
+                    <div class="table-user-avatar" [style.background]="appData.getAvatarColor(u.prenom + u.nom)">{{
+                        format.initials(u.prenom + ' ' + u.nom) }}</div>
+                    <div>
+                        <div class="text-sm font-medium">{{ u.prenom }} {{ u.nom }}</div>
+                        <div class="text-xs text-tertiary">{{ format.capitalize(u.role) }} · {{
+                            format.dateShort(u.dateInscription) }}</div>
+                    </div>
+                </div>
+                <app-status-badge [status]="u.statut"></app-status-badge>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="panel mt-6">
+    <div class="panel-header">
+        <h3 class="panel-title">Actions rapides</h3>
+    </div>
+    <div class="panel-body">
+        <div class="flex gap-3 flex-wrap">
+            <a routerLink="/admin/validation-kyc" class="btn btn-primary"><i class="ph ph-check-circle"
+                    style="font-size: 18px;"></i> Valider des KYC</a>
+            <a routerLink="/admin/validation-vehicules" class="btn btn-secondary"><i class="ph ph-car-profile"
+                    style="font-size: 18px;"></i> Valider des véhicules</a>
+            <a routerLink="/admin/utilisateurs" class="btn btn-secondary"><i class="ph ph-users"
+                    style="font-size: 18px;"></i> Gérer les utilisateurs</a>
+            <a routerLink="/admin/agences" class="btn btn-secondary"><i class="ph ph-storefront"
+                    style="font-size: 18px;"></i> Gérer les agences</a>
+            <a routerLink="/admin/audit-log" class="btn btn-secondary"><i class="ph ph-clipboard-text"
+                    style="font-size: 18px;"></i> Journal d'audit</a>
+        </div>
+    </div>
+</div>

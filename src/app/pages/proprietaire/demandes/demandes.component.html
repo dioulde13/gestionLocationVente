@@ -1,0 +1,108 @@
+<div class="page-header animate-fade-in-up">
+    <div class="flex items-center justify-between w-full">
+        <div>
+            <h1 class="page-title">Mes transactions</h1>
+            <p class="page-subtitle">Gérez les demandes de location et d'achat pour vos véhicules.</p>
+        </div>
+        <div class="flex gap-4">
+            <div class="filter-select">
+                <select [(ngModel)]="filter.type" (change)="applyFilters()">
+                    <option value="">Tous les types</option>
+                    <option value="location">Location</option>
+                    <option value="achat">Achat</option>
+                </select>
+            </div>
+            <div class="filter-select">
+                <select [(ngModel)]="filter.status" (change)="applyFilters()">
+                    <option value="">Tous les statuts</option>
+                    <option value="en_attente_proprietaire">En attente</option>
+                    <option value="valide">Validé</option>
+                    <option value="termine">Terminé / Vendu</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-container animate-fade-in">
+    <table class="modern-table">
+        <thead>
+            <tr>
+                <th>Véhicule</th>
+                <th>Client</th>
+                <th>Type</th>
+                <th>Dates / Détails</th>
+                <th>Prix</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (demande of filteredDemandes; track demande.id) {
+            <tr>
+                <td>
+                    <div class="vehicle-cell">
+                        <img [src]="appData.getCarPlaceholder(demande.vehicle?.marque + ' ' + demande.vehicle?.modele)"
+                            class="tiny-img">
+                        <div>
+                            <div class="font-bold">{{ demande.vehicle?.marque }} {{ demande.vehicle?.modele }}</div>
+                            <div class="text-xs text-slate-400">{{ demande.vehicle?.immatriculation }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="client-info">
+                        <div class="font-medium">{{ demande.client?.prenom }} {{ demande.client?.nom }}</div>
+                        <div class="text-xs text-slate-400">{{ demande.client?.telephone }}</div>
+                    </div>
+                </td>
+                <td>
+                    <span class="type-badge" [class.rent]="demande.type === 'location'"
+                        [class.buy]="demande.type === 'achat'">
+                        {{ demande.type === 'location' ? 'Location' : 'Achat' }}
+                    </span>
+                </td>
+                <td>
+                    @if (demande.type === 'location') {
+                    <div class="dates-info">
+                        <div>Du {{ demande.dateDebut | date:'dd/MM/yyyy' }}</div>
+                        <div>Au {{ demande.dateFin | date:'dd/MM/yyyy' }}</div>
+                    </div>
+                    } @else {
+                    <span class="text-sm">Vente directe</span>
+                    }
+                </td>
+                <td class="font-bold text-blue-600">
+                    {{ fmt.currency(demande.prixEstime || 0) }}
+                </td>
+                <td>
+                    <app-status-badge [status]="demande.statut"></app-status-badge>
+                </td>
+                <td>
+                    <div class="flex gap-2">
+                        @if (demande.statut === 'en_attente_proprietaire') {
+                        <button class="btn-icon success" (click)="updateStatus(demande, 'valide')" title="Accepter">
+                            <i class="ph ph-check"></i>
+                        </button>
+                        <button class="btn-icon danger" (click)="updateStatus(demande, 'refuse')" title="Refuser">
+                            <i class="ph ph-x"></i>
+                        </button>
+                        } @else if (demande.statut === 'valide') {
+                        <button class="btn-sm primary" (click)="updateStatus(demande, 'termine')">
+                            Marquer comme {{ demande.type === 'achat' ? 'Vendu' : 'Terminé' }}
+                        </button>
+                        }
+                    </div>
+                </td>
+            </tr>
+            } @empty {
+            <tr>
+                <td colspan="7" class="empty-row">
+                    <i class="ph ph-mask-sad text-4xl mb-2"></i>
+                    <p>Aucune demande trouvée.</p>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,107 @@
+<div class="page-header animate-fade-in-up">
+    <div class="flex items-center gap-4">
+        <a routerLink="/admin/agences" class="btn btn-ghost btn-icon">
+            <i class="ph ph-arrow-left"></i>
+        </a>
+        <h1 class="page-title">Détails de l'agence</h1>
+    </div>
+</div>
+
+<div class="grid grid-cols-3 gap-6 animate-fade-in-up" style="animation-delay: 0.1s">
+    <!-- Agency Info -->
+    <div class="col-span-1 space-y-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="text-xl font-bold text-primary">{{ agence?.nom }}</h2>
+                    <app-status-badge [status]="agence?.statut"></app-status-badge>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <i class="ph ph-map-pin text-xl text-tertiary"></i>
+                        <div>
+                            <div class="text-xs text-tertiary font-bold uppercase">Adresse</div>
+                            <div class="text-secondary">{{ agence?.adresse }}, {{ agence?.ville }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <i class="ph ph-phone text-xl text-tertiary"></i>
+                        <div>
+                            <div class="text-xs text-tertiary font-bold uppercase">Téléphone</div>
+                            <div class="text-secondary">{{ agence?.telephone }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <i class="ph ph-envelope text-xl text-tertiary"></i>
+                        <div>
+                            <div class="text-xs text-tertiary font-bold uppercase">Email</div>
+                            <div class="text-secondary">{{ agence?.email }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <i class="ph ph-calendar-plus text-xl text-tertiary"></i>
+                        <div>
+                            <div class="text-xs text-tertiary font-bold uppercase">Date de création</div>
+                            <div class="text-secondary">{{ fmt.dateShort(agence?.dateCreation) }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-blue-50 border-blue-100">
+            <div class="card-body text-center py-8">
+                <div class="text-4xl font-bold text-blue-600 mb-1">{{ vehicules.length }}</div>
+                <div class="text-sm text-blue-600 font-medium">Véhicules dans la flotte</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vehicles List -->
+    <div class="col-span-2 space-y-6">
+        <div class="panel">
+            <div class="panel-header">
+                <h3 class="panel-title">Flotte de l'agence</h3>
+            </div>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Véhicule</th>
+                            <th>Immatriculation</th>
+                            <th>Type</th>
+                            <th>Statut</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (v of vehicules; track v.id) {
+                        <tr>
+                            <td>
+                                <div class="font-bold">{{ v.marque }} {{ v.modele }}</div>
+                                <div class="text-xs text-tertiary">{{ v.annee }}</div>
+                            </td>
+                            <td>{{ v.immatriculation }}</td>
+                            <td><span class="badge badge-info">{{ v.type }}</span></td>
+                            <td><app-status-badge [status]="v.statut"></app-status-badge></td>
+                            <td>
+                                <a [routerLink]="['/admin/vehicule', v.id]" class="btn btn-ghost btn-xs">Voir</a>
+                            </td>
+                        </tr>
+                        } @empty {
+                        <tr>
+                            <td colspan="5" class="text-center py-12 text-tertiary">
+                                Aucun véhicule n'est encore affecté à cette agence.
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Journal d'audit</h1>
+    <p class="page-subtitle">Historique complet des actions sur la plateforme</p>
+</div>
+<div class="panel">
+    <div class="panel-header">
+        <div class="form-input-group" style="max-width:300px;">
+            <span class="input-icon"><i class="ph ph-magnifying-glass"></i></span>
+            <input type="text" class="form-input" placeholder="Rechercher..." [(ngModel)]="searchTerm"
+                (input)="filterLogs()">
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Utilisateur</th>
+                    <th>Détails</th>
+                    <th>Date</th>
+                    <th>IP</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (log of filteredLogs; track log.id) {
+                <tr>
+                    <td><span class="font-medium">{{ log.action }}</span></td>
+                    <td>{{ log.utilisateur }}</td>
+                    <td class="text-secondary">{{ log.details }}</td>
+                    <td>{{ fmt.dateTime(log.date) }}</td>
+                    <td><code>{{ log.ip }}</code></td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <h3 class="empty-state-title">Aucune entrée</h3>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Contrat de location</h1>
+</div>
+@if (location) {
+<div class="card">
+    <div class="card-body" style="padding:var(--space-8);">
+        <div style="text-align:center;margin-bottom:var(--space-6);">
+            <h2 style="color:var(--primary-600);">AutoLoc Pro</h2>
+            <p class="text-sm text-secondary">CONTRAT DE LOCATION DE VÉHICULE</p>
+        </div>
+        <div class="grid grid-cols-2 gap-6 mb-6">
+            <div>
+                <h4>Client</h4>
+                <p class="text-sm">{{ clientName }}</p>
+                <p class="text-sm text-secondary">{{ clientEmail }}</p>
+            </div>
+            <div>
+                <h4>Véhicule</h4>
+                <p class="text-sm">{{ vehicleName }}</p>
+                <p class="text-sm text-secondary">{{ vehicleImmat }}</p>
+            </div>
+        </div>
+        <div
+            style="background:var(--bg-secondary);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-6);">
+            <div class="grid grid-cols-4 gap-4">
+                <div>
+                    <div class="text-xs text-tertiary">Début</div>
+                    <div class="font-medium">{{ fmt.dateShort(location.dateDebut) }}</div>
+                </div>
+                <div>
+                    <div class="text-xs text-tertiary">Fin</div>
+                    <div class="font-medium">{{ fmt.dateShort(location.dateFin) }}</div>
+                </div>
+                <div>
+                    <div class="text-xs text-tertiary">Montant</div>
+                    <div class="font-medium">{{ fmt.currency(location.prixTotal) }}</div>
+                </div>
+                <div>
+                    <div class="text-xs text-tertiary">Paiement</div>
+                    <div class="font-medium">{{ location.paiement }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="text-sm text-secondary">
+            <p>Les conditions générales de location s'appliquent. Le véhicule doit être restitué dans le même état.</p>
+        </div>
+    </div>
+</div>
+}

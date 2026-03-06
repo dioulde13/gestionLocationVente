@@ -1,0 +1,33 @@
+<div class="auth-layout">
+    <div class="auth-left">
+        <div class="auth-card animate-scale-in">
+            <div class="auth-logo">
+                <div class="auth-logo-icon"><i class="ph ph-car-profile" style="color: white;"></i></div>
+                <div class="auth-logo-text">Auto<span>Loc</span></div>
+            </div>
+            <h1 class="auth-title">Mot de passe oublié</h1>
+            <p class="auth-subtitle">Entrez votre email pour recevoir un lien de réinitialisation.</p>
+            <form (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label class="form-label" for="email">Adresse email</label>
+                    <div class="form-input-group">
+                        <span class="input-icon"><i class="ph ph-envelope"></i></span>
+                        <input type="email" id="email" class="form-input" placeholder="votre@email.com"
+                            [(ngModel)]="email" name="email" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg" [class.btn-loading]="loading">
+                    {{ loading ? 'Envoi en cours...' : 'Envoyer le lien' }}
+                </button>
+            </form>
+            <div class="auth-footer"><a routerLink="/auth/connexion">← Retour à la connexion</a></div>
+        </div>
+    </div>
+    <div class="auth-right">
+        <div class="auth-right-content">
+            <div style="font-size:5rem;margin-bottom:var(--space-6);">🔑</div>
+            <h2>Réinitialisation</h2>
+            <p>Un lien de réinitialisation vous sera envoyé par email.</p>
+        </div>
+    </div>
+</div>

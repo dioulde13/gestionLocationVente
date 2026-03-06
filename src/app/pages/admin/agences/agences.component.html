@@ -1,0 +1,38 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Agences</h1>
+    <p class="page-subtitle">{{ agences.length }} agence(s) enregistrée(s)</p>
+</div>
+<div class="grid grid-cols-2 gap-6 stagger-children">
+    @for (a of agences; track a.id) {
+    <div class="card">
+        <div class="card-body">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h4 class="card-title">{{ a.nom }}</h4>
+                    <p class="text-sm text-secondary">{{ a.adresse }}, {{ a.ville }}</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a class="btn btn-ghost btn-icon" [routerLink]="['/admin/agence', a.id]" title="Voir détails">
+                        <i class="ph ph-eye"></i>
+                    </a>
+                    <app-status-badge [status]="a.statut"></app-status-badge>
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <div class="text-lg font-bold">{{ a.vehiculesCount }}</div>
+                    <div class="text-xs text-tertiary">Véhicules</div>
+                </div>
+                <div>
+                    <div class="text-lg font-bold">{{ a.telephone }}</div>
+                    <div class="text-xs text-tertiary">Téléphone</div>
+                </div>
+                <div>
+                    <div class="text-lg font-bold">{{ fmt.dateShort(a.dateCreation) }}</div>
+                    <div class="text-xs text-tertiary">Création</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

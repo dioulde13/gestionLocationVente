@@ -1,0 +1,101 @@
+<div class="page-header animate-fade-in-up">
+    <div class="flex items-center justify-between w-full">
+        <div class="header-content">
+            <div class="header-icon">
+                <i class="ph ph-chat-circle-dots"></i>
+            </div>
+            <div>
+                <h1 class="page-title">Mes demandes</h1>
+                <p class="page-subtitle">Suivez l'état de vos demandes d'achat et de location.</p>
+            </div>
+        </div>
+        <div class="flex gap-4">
+            <div class="filter-select">
+                <select [(ngModel)]="filter.type" (change)="applyFilters()">
+                    <option value="">Tous les types</option>
+                    <option value="location">Location</option>
+                    <option value="achat">Achat</option>
+                </select>
+            </div>
+            <div class="filter-select">
+                <select [(ngModel)]="filter.status" (change)="applyFilters()">
+                    <option value="">Tous les statuts</option>
+                    <option value="nouveau">Nouveau</option>
+                    <option value="en_attente_proprietaire">En attente propriétaire</option>
+                    <option value="valide">Validé (Contact prêt)</option>
+                    <option value="termine">Terminé / Vendu</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel premium-panel">
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>VÉHICULE</th>
+                    <th>PROPRIÉTAIRE</th>
+                    <th>TYPE</th>
+                    <th>INFOS</th>
+                    <th>MONTANT ESTIMÉ</th>
+                    <th>STATUT</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (d of filteredDemandes; track d.id) {
+                <tr>
+                    <td>
+                        <div class="vehicle-info-cell">
+                            <div class="vehicle-mini-thumb">
+                                <i class="ph ph-car"></i>
+                            </div>
+                            <div>
+                                <div class="vehicle-name">{{ d.vehicle?.marque }} {{ d.vehicle?.modele }}</div>
+                                <div class="vehicle-meta">{{ d.vehicle?.immatriculation }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="owner-info">
+                            <div class="font-medium">{{ d.owner?.nomAgence || (d.owner?.prenom + ' ' + d.owner?.nom) }}
+                            </div>
+                            <div class="text-xs text-slate-400">{{ d.owner?.telephone }}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="type-badge" [class.rent]="d.type === 'location'" [class.sell]="d.type === 'achat'">
+                            {{ d.type === 'location' ? 'LOCATION' : 'ACHAT' }}
+                        </span>
+                    </td>
+                    <td>
+                        @if (d.type === 'location') {
+                        <div class="text-xs">
+                            Du {{ fmt.dateShort(d.dateDebut || '') }}<br>
+                            Au {{ fmt.dateShort(d.dateFin || '') }}
+                        </div>
+                        } @else {
+                        <div class="text-xs italic">Achat direct</div>
+                        }
+                    </td>
+                    <td>
+                        <span class="amount-cell">{{ fmt.currency(d.prixEstime || 0) }}</span>
+                    </td>
+                    <td><app-status-badge [status]="d.statut"></app-status-badge></td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📩</div>
+                            <h3 class="empty-state-title">Aucune demande en cours</h3>
+                            <p class="text-secondary">Vos demandes d'achat ou de location apparaîtront ici.</p>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

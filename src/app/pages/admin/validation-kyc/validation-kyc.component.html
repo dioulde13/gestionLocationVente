@@ -1,0 +1,54 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Validation KYC</h1>
+    <p class="page-subtitle">{{ pendingUsers.length }} demande(s) en attente</p>
+</div>
+<div class="panel stagger-children">
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Email</th>
+                    <th>Date d'inscription</th>
+                    <th>Statut actuel</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (u of pendingUsers; track u.id) {
+                <tr>
+                    <td>
+                        <div class="table-user">
+                            <div class="table-user-avatar" [style.background]="appData.getAvatarColor(u.prenom+u.nom)">
+                                {{ fmt.initials(u.prenom+' '+u.nom) }}
+                            </div>
+                            <span class="table-user-name font-medium">{{ u.prenom }} {{ u.nom }}</span>
+                        </div>
+                    </td>
+                    <td class="text-secondary">{{ u.email }}</td>
+                    <td>{{ fmt.dateShort(u.dateInscription) }}</td>
+                    <td><app-status-badge [status]="u.kyc"></app-status-badge></td>
+                    <td>
+                        <div class="table-actions">
+                            <a class="btn btn-ghost btn-xs" [routerLink]="['/admin/utilisateur', u.id]"
+                                title="Voir détails utilisateur">👁</a>
+                            <button class="btn btn-ghost btn-xs text-success" (click)="askValidate(u.id, 'valide')"
+                                title="Valider">✅</button>
+                            <button class="btn btn-ghost btn-xs text-danger" (click)="askValidate(u.id, 'refuse')"
+                                title="Refuser">✕</button>
+                        </div>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="5" class="text-center py-12 text-tertiary">
+                        Aucune validation KYC en attente.
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- <app-confirm-modal> removed, using global modal -->

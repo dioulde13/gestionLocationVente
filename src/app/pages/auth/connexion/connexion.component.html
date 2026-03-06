@@ -1,0 +1,100 @@
+<div class="auth-layout">
+    <div class="auth-left">
+        <div class="auth-card animate-scale-in">
+            <div class="auth-logo">
+                <img class="img-fluid" src="assets/logo.JPG" alt="AutoLoc" height="200" width="200" />
+                <!-- <div class="auth-logo-icon"><i class="ph ph-car-profile" style="color: white;"></i></div>
+                <div class="auth-logo-text">Auto<span>Loc</span></div> -->
+            </div>
+            <h1 class="auth-title">Connexion</h1>
+            <p class="auth-subtitle">Bienvenue ! Connectez-vous à votre compte.</p>
+
+            <form (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label class="form-label" for="email">Adresse email</label>
+                    <div class="form-input-group">
+                        <span class="input-icon"><i class="ph ph-envelope"></i></span>
+                        <input type="email" id="email" class="form-input" placeholder="votre@email.com"
+                            [(ngModel)]="email" name="email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">
+                        Mot de passe
+                        <a routerLink="/auth/mot-de-passe-oublie"
+                            style="float:right;font-weight:normal;font-size:var(--font-size-xs);">Mot de passe oublié
+                            ?</a>
+                    </label>
+                    <div class="form-input-group">
+                        <span class="input-icon"><i class="ph ph-lock"></i></span>
+                        <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-input"
+                            placeholder="Votre mot de passe" [(ngModel)]="password" name="password" required>
+                        <button type="button" class="input-action" (click)="showPassword = !showPassword">
+                            <i class="ph" [class.ph-eye]="!showPassword" [class.ph-eye-slash]="showPassword"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check">
+                        <input type="checkbox" [(ngModel)]="remember" name="remember"> Se souvenir de moi
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" [class.btn-loading]="loading"
+                    [disabled]="loading">
+                    <i class="ph ph-sign-in" style="font-size:18px;"></i> {{ loading ? 'Vérification...' : 'Se
+                    connecter' }}
+                </button>
+            </form>
+
+            <div class="auth-divider">ou</div>
+
+            <div style="margin-bottom:var(--space-4);">
+                <p class="text-xs text-tertiary text-center mb-2">Comptes de démonstration (avec OTP) :</p>
+                <div class="flex gap-2" style="flex-wrap:wrap;">
+                    <button class="btn btn-secondary btn-xs" style="flex:1;"
+                        (click)="fillDemo('mamadou@email.com','Test1234')"><i class="ph ph-user"></i> Client</button>
+                    <button class="btn btn-secondary btn-xs" style="flex:1;"
+                        (click)="fillDemo('ibrahima@email.com','Test1234')"><i class="ph ph-buildings"></i>
+                        Propriétaire</button>
+                    <button class="btn btn-secondary btn-xs" style="flex:1;"
+                        (click)="fillDemo('admin@autoloc.com','Admin1234')"><i class="ph ph-gear-six"></i>
+                        Admin</button>
+                </div>
+                <div class="alert alert-info mt-3" style="padding: 10px 14px; font-size: 12px;">
+                    <span class="alert-icon"><i class="ph ph-info" style="font-size:16px;"></i></span>
+                    <div>Après connexion, un code OTP sera demandé. En mode démo, le code s'affiche automatiquement.
+                    </div>
+                </div>
+            </div>
+
+            <div class="auth-footer">
+                Pas encore de compte ? <a routerLink="/auth/inscription">S'inscrire</a>
+            </div>
+        </div>
+    </div>
+    <div class="auth-right">
+        <div class="auth-right-content">
+            <div style="font-size:5rem;margin-bottom:var(--space-6);"></div>
+            <h2>Bienvenue sur AWMLVV Binary Tech</h2>
+            <p>La plateforme de référence pour la location de véhicules en Guinée. Gérez vos locations en toute
+                simplicité.</p>
+            <div style="margin-top: var(--space-8); display: flex; gap: var(--space-6); justify-content:center;">
+                <div style="text-align:center;">
+                    <div style="font-size:var(--font-size-2xl); font-weight:800; color:white;">4</div>
+                    <div style="font-size:var(--font-size-xs); color:rgba(255,255,255,0.6);">Rôles disponibles</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:var(--font-size-2xl); font-weight:800; color:white;">1,200+</div>
+                    <div style="font-size:var(--font-size-xs); color:rgba(255,255,255,0.6);">Véhicules</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:var(--font-size-2xl); font-weight:800; color:white;">GNF</div>
+                    <div style="font-size:var(--font-size-xs); color:rgba(255,255,255,0.6);">Monnaie locale</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
