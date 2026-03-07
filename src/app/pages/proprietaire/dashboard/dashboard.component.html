@@ -1,0 +1,54 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Tableau de bord propriétaire</h1>
+    <p class="page-subtitle">Gérez votre flotte de véhicules</p>
+</div>
+<div class="stats-grid stagger-children">
+    <div class="stat-card stat-blue">
+        <div class="stat-card-header">
+            <div class="stat-card-icon blue"><i class="ph ph-car-profile" style="font-size:24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ myVehicles }}</div>
+        <div class="stat-card-label">Mes véhicules</div>
+    </div>
+    <div class="stat-card stat-green">
+        <div class="stat-card-header">
+            <div class="stat-card-icon green"><i class="ph ph-check-circle" style="font-size:24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ availableVehicles }}</div>
+        <div class="stat-card-label">Disponibles</div>
+    </div>
+    <div class="stat-card stat-amber">
+        <div class="stat-card-header">
+            <div class="stat-card-icon amber"><i class="ph ph-clipboard-text" style="font-size:24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ totalRentals }}</div>
+        <div class="stat-card-label">Total locations</div>
+    </div>
+    <div class="stat-card stat-purple">
+        <div class="stat-card-header">
+            <div class="stat-card-icon purple"><i class="ph ph-currency-circle-dollar" style="font-size:24px;"></i>
+            </div>
+        </div>
+        <div class="stat-card-value">{{ fmt.currency(totalRevenue) }}</div>
+        <div class="stat-card-label">Revenus</div>
+    </div>
+</div>
+<div class="panel mt-6">
+    <div class="panel-header">
+        <h3 class="panel-title">Actions rapides</h3>
+    </div>
+    <div class="panel-body">
+        <div class="flex gap-3 flex-wrap">
+            <a routerLink="/proprietaire/ajouter-vehicule" class="btn btn-primary"><i class="ph ph-plus-circle"></i>
+                Ajouter un véhicule</a>
+            <a routerLink="/proprietaire/vehicules" class="btn btn-secondary"><i class="ph ph-car-profile"></i> Mes
+                véhicules</a>
+            <a routerLink="/proprietaire/tarifs" class="btn btn-secondary"><i class="ph ph-currency-circle-dollar"></i>
+                Gérer les tarifs</a>
+            <a routerLink="/proprietaire/disponibilite" class="btn btn-secondary"><i class="ph ph-calendar"></i>
+                Disponibilité</a>
+            <a routerLink="/proprietaire/exploitation" class="btn btn-secondary"><i class="ph ph-chart-line"></i>
+                Exploitation</a>
+        </div>
+    </div>
+</div>

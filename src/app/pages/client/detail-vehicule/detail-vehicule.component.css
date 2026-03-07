@@ -1,0 +1,362 @@
+.detail-container {
+    background: #fff;
+    border-radius: 24px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.detail-header-image {
+    background: #f1f5f9;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.image-inner img {
+    max-height: 320px;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+}
+
+.image-badges {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    display: flex;
+    gap: 12px;
+}
+
+.glass-badge {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.status-available {
+    color: #10b981;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 40px;
+    padding: 40px;
+}
+
+.vehicle-title-large {
+    font-size: 38px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.rating-display-modern {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.rating-display-modern i {
+    color: #f59e0b;
+    font-size: 20px;
+}
+
+.rating-val {
+    font-weight: 800;
+    color: #1e293b;
+    font-size: 18px;
+}
+
+.rating-count {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.vehicle-specs-line {
+    font-size: 17px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.vehicle-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #475569;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+    position: relative;
+}
+
+.specs-modern-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+
+.spec-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.spec-text label {
+    display: block;
+    font-size: 12px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.spec-text span {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.owner-bar-modern {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 16px;
+}
+
+.owner-avatar-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.owner-name-bold {
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 16px;
+}
+
+.owner-subtitle {
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* Booking Card */
+.booking-card-modern {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 100px;
+}
+
+.card-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.price-tabs {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+}
+
+.price-tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-tab-item label {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.price-big {
+    font-size: 22px;
+    font-weight: 800;
+    color: #2563eb;
+}
+
+.price-small {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.price-mega {
+    font-size: 32px;
+    font-weight: 800;
+    color: #2563eb;
+}
+
+.price-tab-item.full-width {
+    text-align: left;
+}
+
+.form-field label {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 10px;
+}
+
+.input-icon-box {
+    position: relative;
+}
+
+.input-icon-box input {
+    width: 100%;
+    padding: 14px 18px;
+    padding-right: 50px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #f8fafc;
+    font-size: 16px;
+    color: #1e293b;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.input-icon-box input:focus {
+    border-color: #2563eb;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.input-icon-box i {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1e293b;
+    font-size: 22px;
+    pointer-events: none;
+}
+
+.price-info-box {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.btn-primary-modern {
+    padding: 20px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-size: 17px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
+    transition: all 0.3s;
+}
+
+.btn-primary-modern:hover:not(:disabled) {
+    background: #1d4ed8;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary-modern:disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.card-trust-line {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+@media (max-width: 1200px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-card-modern {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .detail-grid {
+        padding: 20px;
+        gap: 24px;
+    }
+
+    .detail-header-image {
+        height: 250px;
+    }
+
+    .image-inner img {
+        max-height: 200px;
+    }
+
+    .vehicle-title-large {
+        font-size: 28px;
+    }
+
+    .specs-modern-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}

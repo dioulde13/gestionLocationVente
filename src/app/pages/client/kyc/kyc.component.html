@@ -1,0 +1,48 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Vérification KYC</h1>
+    <p class="page-subtitle">Vérifiez votre identité pour accéder à toutes les fonctionnalités</p>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3>Statut actuel</h3>
+                <p class="text-sm text-secondary mt-1">{{ getKycMessage() }}</p>
+            </div>
+            <app-status-badge [status]="user?.kyc || 'non_soumis'"></app-status-badge>
+        </div>
+    </div>
+</div>
+@if (user?.kyc === 'non_soumis' || user?.kyc === 'refuse') {
+<div class="card">
+    <div class="card-header">
+        <h3 class="panel-title">Soumettre vos documents</h3>
+    </div>
+    <div class="card-body">
+        <form (ngSubmit)="submit()">
+            <div class="form-group">
+                <label class="form-label">Type de pièce d'identité</label>
+                <select class="form-input" [(ngModel)]="docType" name="docType">
+                    <option value="cni">Carte d'identité</option>
+                    <option value="passeport">Passeport</option>
+                    <option value="permis">Permis de conduire</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Numéro du document</label>
+                <input type="text" class="form-input" placeholder="Numéro" [(ngModel)]="docNumber" name="docNumber"
+                    required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Photo du document (simulé)</label>
+                <div
+                    style="border:2px dashed var(--border-medium);border-radius:var(--radius-lg);padding:var(--space-8);text-align:center;cursor:pointer;">
+                    <div style="font-size:2rem;margin-bottom:var(--space-2);">📄</div>
+                    <p class="text-sm text-secondary">Cliquez pour télécharger</p>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="!docNumber">Soumettre pour vérification</button>
+        </form>
+    </div>
+</div>
+}

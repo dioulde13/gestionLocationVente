@@ -1,0 +1,22 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Documents</h1>
+    <p class="page-subtitle">Documents de vos véhicules</p>
+</div>
+@for (v of vehicles; track v.id) {
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="flex items-center justify-between">
+            <div>
+                <h4>{{ v.marque }} {{ v.modele }}</h4>
+                <p class="text-sm text-secondary">{{ v.immatriculation }}</p>
+            </div>
+            <app-status-badge [status]="v.documents"></app-status-badge>
+        </div>
+        <div class="mt-4"
+            style="border:2px dashed var(--border-medium);border-radius:var(--radius-lg);padding:var(--space-6);text-align:center;cursor:pointer;">
+            <div style="font-size:2rem;margin-bottom:var(--space-2);">📄</div>
+            <p class="text-sm text-secondary">Cliquez pour télécharger les documents</p>
+        </div>
+    </div>
+</div>
+}

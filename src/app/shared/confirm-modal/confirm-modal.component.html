@@ -1,0 +1,25 @@
+<div class="modal-overlay" *ngIf="modalService.isOpen" (click)="onCancel()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+            <div class="confirm-icon" [class.danger]="modalService.config.type === 'danger'"
+                [style.background]="modalService.config.type === 'danger' ? '#fee2e2' : '#e0e7ff'">
+                <i class="ph" [class.ph-warning]="modalService.config.type === 'danger'"
+                    [class.ph-info]="modalService.config.type === 'info'"
+                    [style.color]="modalService.config.type === 'danger' ? '#ef4444' : '#3b82f6'"></i>
+            </div>
+            <h3 class="confirm-title"
+                style="color: #1e293b; font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">{{
+                modalService.config.title }}</h3>
+            <p class="confirm-message" style="color: #64748b; font-size: 0.875rem;">{{ modalService.config.message }}
+            </p>
+        </div>
+        <div class="modal-footer" style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem;">
+            <button class="btn btn-secondary" (click)="onCancel()">{{ modalService.config.cancelText }}</button>
+            <button class="btn" [class.btn-danger]="modalService.config.type === 'danger'"
+                [class.btn-primary]="modalService.config.type === 'info'" (click)="onConfirm()"
+                style="min-width: 100px;">
+                {{ modalService.config.confirmText }}
+            </button>
+        </div>
+    </div>
+</div>

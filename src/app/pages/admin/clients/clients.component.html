@@ -1,0 +1,49 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Clients</h1>
+    <p class="page-subtitle">{{ clients.length }} client(s) inscrits</p>
+</div>
+<div class="panel">
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Ville</th>
+                    <th>Locations</th>
+                    <th>Statut</th>
+                    <th>KYC</th>
+                    <th>Inscription</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (c of clients; track c.id) {
+                <tr>
+                    <td>
+                        <div class="table-user">
+                            <div class="table-user-avatar" [style.background]="appData.getAvatarColor(c.prenom+c.nom)">
+                                {{ fmt.initials(c.prenom+' '+c.nom) }}
+                            </div>
+                            <div class="table-user-info">
+                                <span class="table-user-name">{{ c.prenom }} {{ c.nom }}</span>
+                                <span class="table-user-email">{{ c.email }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ c.ville || '—' }}</td>
+                    <td>{{ getLocationCount(c.id) }}</td>
+                    <td><app-status-badge [status]="c.statut"></app-status-badge></td>
+                    <td><app-status-badge [status]="c.kyc"></app-status-badge></td>
+                    <td>{{ fmt.dateShort(c.dateInscription) }}</td>
+                    <td>
+                        <div class="table-actions">
+                            <a class="btn btn-ghost btn-xs" [routerLink]="['/admin/utilisateur', c.id]"
+                                title="Voir détails">👁</a>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

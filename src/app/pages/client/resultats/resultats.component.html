@@ -1,0 +1,15 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Résultats de recherche</h1>
+    <p class="page-subtitle">{{ vehicles.length }} véhicule(s) trouvé(s)</p>
+</div>
+<div class="content-grid stagger-children">
+    @for (v of vehicles; track v.id) {
+    <app-vehicle-card [vehicle]="v" [showFav]="true"></app-vehicle-card>
+    }
+    @empty {
+    <div class="empty-state" style="grid-column:1/-1;">
+        <div class="empty-state-icon">🔍</div>
+        <h3 class="empty-state-title">Aucun résultat</h3>
+    </div>
+    }
+</div>

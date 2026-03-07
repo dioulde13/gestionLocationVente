@@ -1,0 +1,40 @@
+.card {
+    height: fit-content;
+}
+
+.aspect-video {
+    background: var(--bg-secondary);
+}
+
+.border-y {
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.border-color {
+    border-color: var(--border-color);
+}
+
+.badge-info {
+    background: var(--blue-50);
+    color: var(--blue-600);
+}
+
+.btn-warning {
+    color: var(--amber-600);
+    border-color: var(--amber-600);
+}
+
+.btn-warning:hover {
+    background: var(--amber-50);
+}
+
+@media (max-width: 1024px) {
+    .grid-cols-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .col-span-2 {
+        grid-column: span 1;
+    }
+}

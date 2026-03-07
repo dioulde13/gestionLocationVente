@@ -1,0 +1,54 @@
+<aside class="sidebar" [class.collapsed]="isCollapsed" [class.open]="isMobileOpen">
+  <div class="sidebar-header">
+    <a routerLink="/" class="sidebar-logo">
+      <img class="img-fluid" src="assets/movely1.png" alt="AutoLoc" />
+    </a>
+    <button class="sidebar-collapse-btn" (click)="toggleCollapse()" title="Réduire/Agrandir">
+      <i class="ph ph-caret-left"></i>
+    </button>
+  </div>
+  <nav class="sidebar-nav">
+    @for (section of sections; track section.title) {
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">{{ section.title }}</div>
+      @for (link of section.links; track link.label) {
+      @if (link.children && link.children.length > 0) {
+      <a href="javascript:void(0)" class="sidebar-link has-submenu" [class.open]="openSubmenus[link.label]"
+        [attr.data-tooltip]="link.tooltip" (click)="toggleSubmenu(link.label)">
+        <span class="sidebar-link-icon"><i class="ph {{link.icon}}"></i></span>
+        <span class="sidebar-link-text">{{ link.label }}</span>
+      </a>
+      <div class="sidebar-submenu" [class.open]="openSubmenus[link.label]">
+        @for (child of link.children; track child.route) {
+        <a [routerLink]="child.route" class="sidebar-link" routerLinkActive="active" (click)="closeMobile()">{{
+          child.label }}</a>
+        }
+      </div>
+      } @else {
+      <a [routerLink]="link.route" class="sidebar-link" routerLinkActive="active" [attr.data-tooltip]="link.tooltip"
+        (click)="closeMobile()">
+        <span class="sidebar-link-icon"><i class="ph {{link.icon}}"></i></span>
+        <span class="sidebar-link-text">{{ link.label }}</span>
+      </a>
+      }
+      }
+    </div>
+    }
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user" (click)="authService.logout()">
+      <div class="sidebar-user-avatar" [style.background]="avatarColor">{{ userInitials }}</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">{{ userName }}</div>
+        <div class="sidebar-user-role">{{ userRole }}</div>
+      </div>
+      <span class="sidebar-logout-icon"><i class="ph ph-sign-out"></i></span>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay" [class.active]="isMobileOpen" (click)="closeMobile()"></div>
+<button class="sidebar-toggle" [class.active]="isMobileOpen" (click)="toggleMobile()" aria-label="Menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>

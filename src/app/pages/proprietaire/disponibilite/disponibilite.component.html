@@ -1,0 +1,21 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Disponibilité</h1>
+    <p class="page-subtitle">Gérez la disponibilité de vos véhicules</p>
+</div>
+<div class="grid grid-cols-2 gap-6">
+    @for (v of vehicles; track v.id) {
+    <div class="card">
+        <div class="card-body">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h4>{{ v.marque }} {{ v.modele }}</h4>
+                    <p class="text-sm text-secondary">{{ v.annee }} · {{ v.immatriculation }}</p>
+                </div>
+                <button class="btn btn-sm" [class.btn-success]="v.disponible" [class.btn-danger]="!v.disponible"
+                    (click)="toggle(v)">{{ v.disponible ? '✅ Disponible' : '⛔ Indisponible' }}</button>
+            </div>
+            <div class="text-sm text-tertiary">{{ v.totalLocations }} location(s) effectuée(s)</div>
+        </div>
+    </div>
+    }
+</div>

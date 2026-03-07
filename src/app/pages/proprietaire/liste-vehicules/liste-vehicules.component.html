@@ -1,0 +1,86 @@
+<div class="page-header animate-fade-in-up">
+    <div class="flex items-center justify-between w-full">
+        <div>
+            <h1 class="page-title">Mes véhicules</h1>
+            <p class="page-subtitle">{{ vehicles.length }} véhicule(s) géré(s)</p>
+        </div>
+        <div class="flex gap-3">
+            <select class="filter-select-sm" [(ngModel)]="filter.type" (change)="applyFilters()">
+                <option value="">Tous les types</option>
+                <option value="location">Location</option>
+                <option value="vente">Vente</option>
+            </select>
+            <select class="filter-select-sm" [(ngModel)]="filter.status" (change)="applyFilters()">
+                <option value="">Tous les statuts</option>
+                <option value="libre">Libre</option>
+                <option value="negoc">En négociation</option>
+                <option value="en_cours">En cours (Loué/Vente)</option>
+                <option value="termine">Terminé / Vendu</option>
+            </select>
+            <a routerLink="/proprietaire/ajouter-vehicule" class="btn btn-primary btn-sm">+ Ajouter</a>
+        </div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Véhicule</th>
+                    <th>Immatriculation</th>
+                    <th>Type</th>
+                    <th>Prix</th>
+                    <th>Disponibilité</th>
+                    <th>Transaction</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (v of filteredVehicles; track v.id) {
+                <tr>
+                    <td>
+                        <span class="font-medium">{{ v.marque }} {{ v.modele }}</span><br>
+                        <span class="text-xs text-tertiary">{{ v.annee }}</span>
+                    </td>
+                    <td>{{ v.immatriculation }}</td>
+                    <td><span class="badge badge-info">{{ v.type }}</span></td>
+                    <td>
+                        {{ v.type === 'vente' ? fmt.currency(v.prixVente || 0) : fmt.currency(v.prixJour || 0) }}
+                    </td>
+                    <td>
+                        <button class="btn btn-ghost btn-xs" (click)="toggleDispo(v.id)"
+                            [class.text-success]="v.disponible" [class.text-danger]="!v.disponible">
+                            {{ v.disponible ? 'Disponible' : 'Indisponible' }}
+                        </button>
+                    </td>
+                    <td>
+                        @let t = getTransactionStatus(v);
+                        <span class="text-xs font-bold" [class]="t.color">{{ t.label }}</span>
+                    </td>
+                    <td><app-status-badge [status]="v.statut"></app-status-badge></td>
+                    <td>
+                        <div class="table-actions">
+                            <a class="btn btn-ghost btn-xs" [routerLink]="['/proprietaire/vehicule', v.id]"
+                                title="Voir détails">👁</a>
+                            <button class="btn btn-ghost btn-xs text-danger" (click)="askDelete(v.id)"
+                                title="Supprimer">
+                                🗑
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="8" class="text-center py-12 text-tertiary">
+                        Aucun véhicule ne correspond aux filtres.
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- <app-confirm-modal> removed, using global modal -->

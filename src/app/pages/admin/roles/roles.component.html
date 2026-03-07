@@ -1,0 +1,30 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Rôles & Permissions</h1>
+    <p class="page-subtitle">Gestion des rôles et des permissions de la plateforme</p>
+</div>
+<div class="grid grid-cols-2 gap-6">
+    @for (role of roles; track role.name) {
+    <div class="card">
+        <div class="card-header">
+            <div class="flex items-center gap-3">
+                <div class="stat-card-icon" [style.background]="role.color">{{ role.icon }}</div>
+                <div>
+                    <h4>{{ role.label }}</h4>
+                    <p class="text-sm text-secondary">{{ role.desc }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <h5 class="text-sm font-semibold mb-3">Permissions :</h5>
+            <div class="flex flex-wrap gap-2">
+                @for (p of role.permissions; track p) {
+                <span class="badge badge-info" style="font-size:11px;">{{ p }}</span>
+                }
+            </div>
+            <div class="mt-4">
+                <span class="text-sm text-tertiary">{{ getUserCount(role.name) }} utilisateur(s)</span>
+            </div>
+        </div>
+    </div>
+    }
+</div>

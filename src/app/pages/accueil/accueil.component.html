@@ -1,0 +1,253 @@
+<!-- accueil Header -->
+<header class="accueil-header" [class.scrolled]="isScrolled" id="accueilHeader">
+    <div class="container">
+        <a routerLink="/" class="sidebar-logo" >
+            <img class="img-fluid" src="assets/logo.JPG" alt="Movely" />
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="accueil-nav accueil-nav-desktop">
+            <a href="#features">Fonctionnalités</a>
+            <a href="#vehicles">Véhicules</a>
+            <a href="#how">Comment ça marche</a>
+            <a href="#testimonials">Avis</a>
+        </nav>
+
+        <!-- Desktop Actions -->
+        <div class="accueil-actions-desktop">
+            <a routerLink="/auth/connexion" class="btn btn-ghost">Se connecter</a>
+            <a routerLink="/auth/inscription" class="btn btn-primary">S'inscrire</a>
+            @if (isLoggedIn) {
+            <a [routerLink]="dashboardRoute" class="btn btn-outline" style="margin-left: 10px;">Mon espace</a>
+            }
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="accueil-menu-toggle" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"
+            aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="accueil-mobile-overlay" [class.show]="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
+
+    <!-- Mobile Menu Drawer (Slides from Right) -->
+    <div class="accueil-mobile-menu" [class.open]="isMobileMenuOpen">
+        <a routerLink="/" class="sidebar-logo mobile-logo" (click)="closeMobileMenu()">
+            <img class="img-fluid" src="assets/logo.JPG" alt="AutoLoc" />
+        </a>
+        <nav class="accueil-nav-mobile">
+            <a href="#features" (click)="closeMobileMenu()">Fonctionnalités</a>
+            <a href="#vehicles" (click)="closeMobileMenu()">Véhicules</a>
+            <a href="#how" (click)="closeMobileMenu()">Comment ça marche</a>
+            <a href="#testimonials" (click)="closeMobileMenu()">Avis</a>
+        </nav>
+        <div class="accueil-actions-mobile">
+            <div class="accueil-actions-mobile-grid">
+                <a routerLink="/auth/connexion" class="btn btn-outline btn-block" (click)="closeMobileMenu()">Se
+                    connecter</a>
+                <a routerLink="/auth/inscription" class="btn btn-primary btn-block"
+                    (click)="closeMobileMenu()">S'inscrire</a>
+            </div>
+            @if (isLoggedIn) {
+            <a [routerLink]="dashboardRoute" class="btn btn-ghost btn-block" (click)="closeMobileMenu()">Mon espace</a>
+            }
+        </div>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-content animate-fade-in-up">
+                <div class="hero-badge">Plateforme N°1 en Guinée</div>
+                <h1 class="hero-title">Louez le véhicule <span class="highlight">idéal</span> en quelques clics</h1>
+                <p class="hero-description">Découvrez des milliers de véhicules disponibles à la location. Simple,
+                    rapide et
+                    sécurisé. Propriétaires, rentabilisez votre flotte.</p>
+                <div class="hero-actions">
+                    <a routerLink="/auth/inscription" class="btn btn-primary btn-xl">Commencer maintenant →</a>
+                    <a href="#how" class="btn btn-secondary btn-xl">En savoir plus</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">1,200+</div>
+                        <div class="hero-stat-label">Véhicules</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">8,500+</div>
+                        <div class="hero-stat-label">Locations réussies</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">4.8</div>
+                        <div class="hero-stat-label">Note moyenne</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image animate-fade-in">
+                <div class="hero-visual">
+        <div class="hero-visual-icon">
+    <img src="assets/movely1.png" alt="Logo">
+</div>
+                    <div class="hero-badge-float animate-float">
+                        <span class="hero-badge-text">Réservation confirmée</span>
+                    </div>
+                    <div class="hero-price-float animate-float">
+                        <div class="hero-price-label">Prix moyen/jour</div>
+                        <div class="hero-price-value">250,000 GNF</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="section section-features" id="features">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-badge">Fonctionnalités</div>
+            <h2 class="section-title">Tout ce qu'il vous faut pour louer</h2>
+            <p class="section-subtitle">Movely offre une plateforme complète pour les clients et les propriétaires
+                de véhicules.</p>
+        </div>
+        <div class="features-grid stagger-children">
+            @for (feature of features; track feature.title) {
+            <div class="card feature-card">
+                <div class="card-body">
+                    <div class="feature-icon">{{ feature.icon }}</div>
+                    <h4 class="feature-title">{{ feature.title }}</h4>
+                    <p class="feature-desc">{{ feature.desc }}</p>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="section section-how" id="how">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Comment ça marche ?</h2>
+            <p class="section-subtitle">En 3 étapes simples, louez ou mettez en location votre véhicule.</p>
+        </div>
+        <div class="steps-grid stagger-children">
+            @for (step of steps; track step.num) {
+            <div class="step-item">
+                <div class="step-number" [style]="step.style">{{ step.num }}</div>
+                <h4 class="step-title">{{ step.title }}</h4>
+                <p class="step-desc">{{ step.desc }}</p>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Vehicles Preview -->
+<section class="section section-vehicles" id="vehicles">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Véhicules populaires</h2>
+            <p class="section-subtitle">Découvrez nos véhicules les plus demandés.</p>
+        </div>
+        <div class="vehicles-grid stagger-children">
+            @for (vehicle of popularVehicles; track vehicle.id) {
+            <app-vehicle-card [vehicle]="vehicle" [showFav]="false"></app-vehicle-card>
+            }
+        </div>
+        <div class="section-cta">
+            <a routerLink="/auth/inscription" class="btn btn-primary btn-lg">Voir tous les véhicules →</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section section-testimonials" id="testimonials">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-badge">Témoignages</div>
+            <h2 class="section-title">Ils nous font confiance</h2>
+        </div>
+        <div class="testimonials-grid stagger-children">
+            @for (testimonial of testimonials; track testimonial.name) {
+            <div class="card testimonial-card">
+                <div class="card-body">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"{{ testimonial.text }}"</p>
+                    <div class="testimonial-author">
+                        <div class="avatar" [style.background]="testimonial.color">{{ testimonial.initials }}</div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">{{ testimonial.name }}</div>
+                            <div class="testimonial-role">{{ testimonial.role }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section section-cta-final">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Prêt à commencer ?</h2>
+            <p class="cta-description">
+                Rejoignez des milliers d'utilisateurs qui font confiance à AutoLoc Pro pour leurs besoins de mobilité.
+            </p>
+            <div class="cta-actions">
+                <a routerLink="/auth/inscription" class="btn btn-accent btn-xl">Créer un compte gratuit</a>
+                <a routerLink="/auth/connexion" class="btn btn-outline-white btn-xl">Se connecter</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="accueil-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="sidebar-logo">
+                    <img class="img-fluid" src="assets/movely.png" alt="AutoLoc" style="height: 40px; width: auto;" />
+                </div>
+                <p class="footer-description">La plateforme de référence pour la location de véhicules en Guinée.
+                    Simple, sécurisé, professionnel.</p>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-heading">Plateforme</h4>
+                <a href="#features">Fonctionnalités</a>
+                <a href="#vehicles">Véhicules</a>
+                <a href="#how">Comment ça marche</a>
+                <a href="#testimonials">Témoignages</a>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-heading">Entreprise</h4>
+                <a href="#">À propos</a>
+                <a href="#">Carrières</a>
+                <a href="#">Blog</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h4 class="footer-heading">Légal</h4>
+                <a href="#">Conditions d'utilisation</a>
+                <a href="#">Politique de confidentialité</a>
+                <a href="#">CGV</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">© 2026 Movely. Tous droits réservés.</p>
+            <div class="footer-social">
+                <a href="#" aria-label="Facebook">Facebook</a>
+                <a href="#" aria-label="Twitter">Twitter</a>
+                <a href="#" aria-label="Instagram">Instagram</a>
+            </div>
+        </div>
+    </div>
+</footer>

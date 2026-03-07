@@ -1,0 +1,43 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Mon profil</h1>
+    <p class="page-subtitle">Gérez vos informations personnelles</p>
+</div>
+@if (user) {
+<div class="grid grid-cols-3 gap-6">
+    <div class="card" style="grid-column:span 1;">
+        <div class="card-body" style="text-align:center;padding:var(--space-8);">
+            <div class="avatar avatar-xl" [style.background]="appData.getAvatarColor(user.prenom+user.nom)"
+                style="margin:0 auto var(--space-4);width:96px;height:96px;font-size:2rem;display:flex;align-items:center;justify-content:center;border-radius:50%;color:white;">
+                {{ fmt.initials(user.prenom+' '+user.nom) }}
+            </div>
+            <h3>{{ user.prenom }} {{ user.nom }}</h3>
+            <p class="text-secondary text-sm">{{ user.email }}</p>
+            <p class="text-secondary text-sm">Membre depuis {{ fmt.date(user.dateInscription) }}</p>
+        </div>
+    </div>
+    <div class="card" style="grid-column:span 2;">
+        <div class="card-header">
+            <h3 class="panel-title">Informations</h3>
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="save()">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group"><label class="form-label">Nom</label><input type="text" class="form-input"
+                            [(ngModel)]="form.nom" name="nom"></div>
+                    <div class="form-group"><label class="form-label">Prénom</label><input type="text"
+                            class="form-input" [(ngModel)]="form.prenom" name="prenom"></div>
+                    <div class="form-group"><label class="form-label">Email</label><input type="email"
+                            class="form-input" [(ngModel)]="form.email" name="email"></div>
+                    <div class="form-group"><label class="form-label">Téléphone</label><input type="tel"
+                            class="form-input" [(ngModel)]="form.telephone" name="telephone"></div>
+                    <div class="form-group"><label class="form-label">Ville</label><input type="text" class="form-input"
+                            [(ngModel)]="form.ville" name="ville"></div>
+                    <div class="form-group"><label class="form-label">Adresse</label><input type="text"
+                            class="form-input" [(ngModel)]="form.adresse" name="adresse"></div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-4">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+</div>
+}

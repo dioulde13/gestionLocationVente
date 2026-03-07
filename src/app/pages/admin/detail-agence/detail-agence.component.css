@@ -1,0 +1,15 @@
+.badge-info {
+    background: var(--blue-50);
+    color: var(--blue-600);
+}
+
+@media (max-width: 1024px) {
+    .grid-cols-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .col-span-2,
+    .col-span-1 {
+        grid-column: span 1;
+    }
+}

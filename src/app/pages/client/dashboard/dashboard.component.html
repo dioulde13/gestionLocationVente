@@ -1,0 +1,79 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Bonjour {{ user?.prenom }} 👋</h1>
+    <p class="page-subtitle">Bienvenue sur votre tableau de bord Movely</p>
+</div>
+<div class="stats-grid stagger-children">
+    <div class="stat-card stat-blue">
+        <div class="stat-card-header">
+            <div class="stat-card-icon blue"><i class="ph ph-car-profile" style="font-size:24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ totalLocations }}</div>
+        <div class="stat-card-label">Locations</div>
+    </div>
+    <div class="stat-card stat-green">
+        <div class="stat-card-header">
+            <div class="stat-card-icon green"><i class="ph ph-check-circle" style="font-size:24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ activeLocations }}</div>
+        <div class="stat-card-label">En cours</div>
+    </div>
+    <div class="stat-card stat-amber">
+        <div class="stat-card-header">
+            <div class="stat-card-icon amber"><i class="ph ph-heart" style="font-size:24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ totalFavoris }}</div>
+        <div class="stat-card-label">Favoris</div>
+    </div>
+    <div class="stat-card stat-purple">
+        <div class="stat-card-header">
+            <div class="stat-card-icon purple"><i class="ph ph-currency-circle-dollar" style="font-size:24px;"></i>
+            </div>
+        </div>
+        <div class="stat-card-value">{{ fmt.currency(totalSpent) }}</div>
+        <div class="stat-card-label">Total dépensé</div>
+    </div>
+</div>
+<div class="two-column mt-6">
+    <div class="panel">
+        <div class="panel-header">
+            <h3 class="panel-title">Locations récentes</h3>
+            <a routerLink="/client/historique" class="btn btn-ghost btn-xs">Voir tout →</a>
+        </div>
+        @for (loc of recentLocations; track loc.id) {
+        <div class="flex items-center justify-between"
+            style="padding:var(--space-3);border-bottom:1px solid var(--border-light);">
+            <div>
+                <div class="font-medium text-sm">{{ getVehicleName(loc.vehiculeId) }}</div>
+                <div class="text-xs text-tertiary">{{ fmt.dateShort(loc.dateDebut) }} → {{ fmt.dateShort(loc.dateFin) }}
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="font-semibold text-sm">{{ fmt.currency(loc.prixTotal) }}</span>
+                <app-status-badge [status]="loc.statut"></app-status-badge>
+            </div>
+        </div>
+        } @empty {
+        <div class="empty-state" style="padding:var(--space-8);">
+            <div class="empty-state-icon"></div>
+            <p class="text-sm text-secondary">Aucune location</p>
+        </div>
+        }
+    </div>
+    <div class="panel">
+        <div class="panel-header">
+            <h3 class="panel-title">Actions rapides</h3>
+        </div>
+        <div class="panel-body">
+            <div class="flex flex-col gap-3">
+                <a routerLink="/client/recherche" class="btn btn-primary btn-block"><i
+                        class="ph ph-magnifying-glass"></i> Chercher un véhicule</a>
+                <a routerLink="/client/favoris" class="btn btn-secondary btn-block"><i class="ph ph-heart"></i> Mes
+                    favoris</a>
+                <a routerLink="/client/profil" class="btn btn-secondary btn-block"><i class="ph ph-user"></i> Mon
+                    profil</a>
+                <a routerLink="/client/kyc" class="btn btn-secondary btn-block"><i class="ph ph-shield-check"></i>
+                    KYC</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Tableau de bord Agence</h1>
+    <p class="page-subtitle">{{ agenceName }}</p>
+</div>
+<div class="stats-grid stagger-children">
+    <div class="stat-card stat-blue">
+        <div class="stat-card-header">
+            <div class="stat-card-icon blue"><i class="ph ph-car-profile" style="font-size:24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ vehicleCount }}</div>
+        <div class="stat-card-label">Véhicules</div>
+    </div>
+    <div class="stat-card stat-green">
+        <div class="stat-card-header">
+            <div class="stat-card-icon green"><i class="ph ph-check-circle" style="font-size:24px;"></i></div>
+        </div>
+        <div class="stat-card-value">{{ activeRentals }}</div>
+        <div class="stat-card-label">Locations actives</div>
+    </div>
+    <div class="stat-card stat-purple">
+        <div class="stat-card-header">
+            <div class="stat-card-icon purple"><i class="ph ph-currency-circle-dollar" style="font-size:24px;"></i>
+            </div>
+        </div>
+        <div class="stat-card-value">{{ fmt.currency(revenue) }}</div>
+        <div class="stat-card-label">Revenus</div>
+    </div>
+</div>
+<div class="card mt-6">
+    <div class="card-body" style="padding:var(--space-8);text-align:center;">
+        <div style="font-size:4rem;margin-bottom:var(--space-4);">🏢</div>
+        <h3>Bienvenue sur votre espace agence</h3>
+        <p class="text-secondary mt-2">Gérez votre flotte de véhicules et suivez vos performances.</p>
+    </div>
+</div>

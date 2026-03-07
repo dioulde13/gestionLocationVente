@@ -1,0 +1,63 @@
+<div class="vehicle-card animate-stagger-in">
+    <div class="card-image-wrapper">
+        <div class="card-badges">
+            <span class="category-badge">{{ vehicle.categorie }}</span>
+            <span class="status-badge" [class.rent]="vehicle.type === 'location'"
+                [class.sell]="vehicle.type === 'vente'">
+                {{ vehicle.type === 'location' ? 'À LOUER' : 'À VENDRE' }}
+            </span>
+        </div>
+        @if (vehicle.images && vehicle.images.length > 0) {
+        <img [src]="vehicle.images[0]" [alt]="vehicle.marque + ' ' + vehicle.modele" class="real-image">
+        } @else {
+        <img [src]="appData.getCarPlaceholder(vehicle.marque + ' ' + vehicle.modele)" [alt]="vehicle.marque">
+        }
+        <div class="brand-badge">{{ vehicle.marque }} {{ vehicle.modele }}</div>
+    </div>
+
+    <div class="card-content">
+        <div class="card-header">
+            <h3 class="vehicle-name">{{ vehicle.marque }} {{ vehicle.modele }}</h3>
+            <div class="rating">
+                <i class="ph ph-star-fill text-amber-400"></i>
+                <span>{{ vehicle.rating || '4.9' }}</span>
+            </div>
+        </div>
+        <p class="vehicle-info">{{ vehicle.annee }} · {{ vehicle.couleur }}</p>
+
+        <div class="features-grid">
+            <div class="feature">
+                <i class="ph ph-gas-pump"></i>
+                <span>{{ vehicle.carburant }}</span>
+            </div>
+            <div class="feature">
+                <i class="ph ph-gear"></i>
+                <span>{{ vehicle.transmission === 'automatique' ? 'Automatique' : 'Manuelle' }}</span>
+            </div>
+            <div class="feature">
+                <i class="ph ph-users"></i>
+                <span>{{ vehicle.places }} places</span>
+            </div>
+            <div class="feature">
+                <i class="ph ph-snowflake"></i>
+                <span>{{ vehicle.climatisation ? 'Clim' : 'Non clim' }}</span>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <div class="price-container">
+                @if (vehicle.type === 'location') {
+                <span class="price">{{ fmt.currency(vehicle.prixJour || 0) }}</span>
+                <span class="period">/ jour</span>
+                } @else {
+                <span class="price">{{ fmt.currency(vehicle.prixVente || 0) }}</span>
+                }
+            </div>
+            <div class="owner-info">
+                {{ getOwnerName(vehicle.proprietaireId) }}
+            </div>
+        </div>
+    </div>
+
+    <a [routerLink]="['/client/vehicule', vehicle.id]" class="card-overlay-link"></a>
+</div>

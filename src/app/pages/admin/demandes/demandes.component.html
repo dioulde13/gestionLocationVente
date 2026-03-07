@@ -1,0 +1,98 @@
+<div class="page-header animate-fade-in-up">
+    <div class="header-content">
+        <div class="header-icon">
+            <i class="ph ph-chat-circle-dots"></i>
+        </div>
+        <div>
+            <h1 class="page-title">Gestion des demandes</h1>
+            <p class="page-subtitle">Gérez l'intermédiation entre clients et propriétaires.</p>
+        </div>
+    </div>
+</div>
+
+<div class="panel premium-panel">
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>CLIENT</th>
+                    <th>VÉHICULE</th>
+                    <th>TYPE</th>
+                    <th>PROPRIÉTAIRE</th>
+                    <th>STATUT</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (d of demandes; track d.id) {
+                @let c = getUser(d.clientId);
+                @let v = getVehicle(d.vehiculeId);
+                @let p = getOwner(d.vehiculeId);
+                <tr>
+                    <td>
+                        <div class="user-info-cell">
+                            <div class="user-avatar-mini"
+                                [style.background]="appData.getAvatarColor(c?.prenom + ' ' + c?.nom)">
+                                {{ fmt.initials(c?.prenom + ' ' + c?.nom) }}
+                            </div>
+                            <div>
+                                <div class="user-name">{{ c?.prenom }} {{ c?.nom }}</div>
+                                <div class="user-meta">{{ c?.kyc === 'valide' ? '✅ KYC Validé' : '❌ KYC Non Valide' }}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="vehicle-info-cell">
+                            <div class="vehicle-name">{{ v?.marque }} {{ v?.modele }}</div>
+                            <div class="vehicle-meta">{{ v?.immatriculation }}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="type-badge" [class.rent]="d.type === 'location'" [class.sell]="d.type === 'achat'">
+                            {{ d.type === 'location' ? 'LOCATION' : 'ACHAT' }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="owner-info">
+                            <div class="owner-name">{{ p?.nomAgence || (p?.prenom + ' ' + p?.nom) }}</div>
+                            <div class="owner-meta">{{ p?.telephone }}</div>
+                        </div>
+                    </td>
+                    <td><app-status-badge [status]="d.statut"></app-status-badge></td>
+                    <td>
+                        <div class="table-actions-modern">
+                            @if (d.statut === 'nouveau') {
+                            <button class="action-btn text-primary"
+                                (click)="updateStatus(d, 'en_attente_proprietaire')">
+                                <i class="ph ph-paper-plane"></i>
+                                <span>Notifier Propriétaire</span>
+                            </button>
+                            }
+                            @if (d.statut === 'en_attente_proprietaire') {
+                            <button class="action-btn text-success" (click)="updateStatus(d, 'valide')">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Valider</span>
+                            </button>
+                            }
+                            <button class="action-btn text-danger" (click)="deleteDemande(d.id)">
+                                <i class="ph ph-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📩</div>
+                            <h3 class="empty-state-title">Aucune demande</h3>
+                            <p class="text-secondary">Les nouvelles demandes de clients apparaîtront ici.</p>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

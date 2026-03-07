@@ -1,0 +1,13 @@
+/* Navbar specific styles */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    height: 70px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}

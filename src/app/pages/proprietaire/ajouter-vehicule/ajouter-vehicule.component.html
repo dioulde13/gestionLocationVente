@@ -1,0 +1,114 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Ajouter un véhicule</h1>
+    <p class="page-subtitle">Remplissez les informations de votre véhicule</p>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form (ngSubmit)="submit()">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="form-group">
+                    <label class="form-label">Type d'annonce</label>
+                    <select class="form-input" [(ngModel)]="f.type" name="type">
+                        <option value="location">📍 En location</option>
+                        <option value="vente">💰 À vendre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Marque</label>
+                    <input type="text" class="form-input" [(ngModel)]="f.marque" name="marque" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Modèle</label>
+                    <input type="text" class="form-input" [(ngModel)]="f.modele" name="modele" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Année</label>
+                    <input type="number" class="form-input" [(ngModel)]="f.annee" name="annee">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Immatriculation</label>
+                    <input type="text" class="form-input" [(ngModel)]="f.immatriculation" name="immat">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Catégorie</label>
+                    <select class="form-input" [(ngModel)]="f.categorie" name="cat">
+                        <option>SUV</option>
+                        <option>Berline</option>
+                        <option>Pick-up</option>
+                        <option>Citadine</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Carburant</label>
+                    <select class="form-input" [(ngModel)]="f.carburant" name="carb">
+                        <option>Essence</option>
+                        <option>Diesel</option>
+                        <option>Hybride</option>
+                        <option>Électrique</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Transmission</label>
+                    <select class="form-input" [(ngModel)]="f.transmission" name="trans">
+                        <option>Automatique</option>
+                        <option>Manuelle</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Places</label>
+                    <input type="number" class="form-input" [(ngModel)]="f.places" name="places">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Couleur</label>
+                    <input type="text" class="form-input" [(ngModel)]="f.couleur" name="couleur">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ville</label>
+                    <input type="text" class="form-input" [(ngModel)]="f.ville" name="ville">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kilométrage</label>
+                    <input type="number" class="form-input" [(ngModel)]="f.kilometrage" name="km">
+                </div>
+                <div class="form-group">
+                    <label class="form-check">
+                        <input type="checkbox" [(ngModel)]="f.climatisation" name="clim"> Climatisation
+                    </label>
+                </div>
+            </div>
+
+            @if (f.type === 'location') {
+            <h4 class="mt-6 mb-4">Tarification de location</h4>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="form-group">
+                    <label class="form-label">Prix/jour (GNF)</label>
+                    <input type="number" class="form-input" [(ngModel)]="f.prixJour" name="prixJour">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prix/semaine (GNF)</label>
+                    <input type="number" class="form-input" [(ngModel)]="f.prixSemaine" name="prixSemaine">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prix/mois (GNF)</label>
+                    <input type="number" class="form-input" [(ngModel)]="f.prixMois" name="prixMois">
+                </div>
+            </div>
+            } @else {
+            <h4 class="mt-6 mb-4">Tarification de vente</h4>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="form-group">
+                    <label class="form-label">Prix de vente (GNF)</label>
+                    <input type="number" class="form-input" [(ngModel)]="f.prixVente" name="prixVente">
+                </div>
+            </div>
+            }
+
+            <div class="form-group mt-4">
+                <label class="form-label">Description</label>
+                <textarea class="form-input" rows="3" [(ngModel)]="f.description" name="desc"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg mt-4">Ajouter le véhicule</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+@if (user) {
+<div class="card mb-6">
+    <div class="card-body">
+        <div class="flex items-center gap-6">
+            <div class="avatar avatar-xl" [style.background]="appData.getAvatarColor(user.prenom+user.nom)">
+                {{ fmt.initials(user.prenom+' '+user.nom) }}
+            </div>
+            <div class="flex-1">
+                <h2>{{ user.prenom }} {{ user.nom }}</h2>
+                <p class="text-secondary">{{ user.email }} · {{ user.telephone }}</p>
+                <div class="flex gap-2 mt-2">
+                    <span class="badge" [class.badge-primary]="user.role==='client'"
+                        [class.badge-purple]="user.role!=='client'">
+                        {{ fmt.capitalize(user.role) }}
+                    </span>
+                    <app-status-badge [status]="user.statut"></app-status-badge>
+                    <app-status-badge [status]="user.kyc"></app-status-badge>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button class="btn btn-sm" [class.btn-outline-danger]="user.statut==='actif'"
+                    [class.btn-success]="user.statut!=='actif'" (click)="toggleStatus()">
+                    {{ user.statut === 'actif' ? '🚫 Suspendre' : '✅ Réactiver' }}
+                </button>
+                @if (user.kyc === 'en_attente') {
+                <button class="btn btn-success btn-sm" (click)="validateKYC('valide')">✅ Valider KYC</button>
+                <button class="btn btn-danger btn-sm" (click)="validateKYC('refuse')">✕ Refuser KYC</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="two-column mb-6">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="panel-title">Informations personnelles</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Ville:</strong> {{ user.ville || 'Non renseigné' }}</p>
+            <p><strong>Adresse:</strong> {{ user.adresse || 'Non renseigné' }}</p>
+            <p><strong>Date d'inscription:</strong> {{ fmt.date(user.dateInscription) }}</p>
+            @if (user.nomAgence) {
+            <p><strong>Agence:</strong> {{ user.nomAgence }}</p>
+            }
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="panel-title">Statistiques</h4>
+        </div>
+        <div class="card-body">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <div class="text-2xl font-bold">{{ userLocations.length }}</div>
+                    <div class="text-sm text-secondary">Locations</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold">{{ userVehicles.length }}</div>
+                    <div class="text-sm text-secondary">Véhicules</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (userLocations.length > 0) {
+<div class="panel mb-6">
+    <div class="panel-header">
+        <h4 class="panel-title">Historique des locations</h4>
+    </div>
+    <div class="table-wrapper" style="border:none;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Véhicule</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Montant</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (l of userLocations; track l.id) {
+                <tr>
+                    <td>{{ getVehicleName(l.vehiculeId) }}</td>
+                    <td>{{ fmt.dateShort(l.dateDebut) }}</td>
+                    <td>{{ fmt.dateShort(l.dateFin) }}</td>
+                    <td>{{ fmt.currency(l.prixTotal) }}</td>
+                    <td><app-status-badge [status]="l.statut"></app-status-badge></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+}
+}

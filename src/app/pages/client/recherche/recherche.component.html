@@ -1,0 +1,77 @@
+<div class="page-header animate-fade-in-up">
+    <h1 class="page-title">Rechercher un véhicule</h1>
+    <p class="page-subtitle">Trouvez le véhicule idéal pour vos besoins.</p>
+</div>
+
+<div class="search-panel mb-8">
+    <div class="search-grid">
+        <div class="filter-dropdown">
+            <select [(ngModel)]="filters.type" (change)="applyFilters()">
+                <option value="">Tous types</option>
+                <option value="location">À louer</option>
+                <option value="vente">À vendre</option>
+            </select>
+        </div>
+
+        <div class="search-input-wrapper">
+            <i class="ph ph-magnifying-glass search-icon"></i>
+            <input type="text" placeholder="Marque, modèle..." [(ngModel)]="filters.search" (input)="applyFilters()">
+        </div>
+
+        <div class="filter-dropdown">
+            <select [(ngModel)]="filters.marque" (change)="applyFilters()">
+                <option value="">Toutes marques</option>
+                @for (m of filterOpts.marques; track m) { <option [value]="m">{{ m }}</option> }
+            </select>
+        </div>
+
+        <div class="filter-dropdown">
+            <select [(ngModel)]="filters.categorie" (change)="applyFilters()">
+                <option value="">Toutes catégories</option>
+                @for (c of filterOpts.categories; track c) { <option [value]="c">{{ c }}</option> }
+            </select>
+        </div>
+
+        <div class="filter-dropdown">
+            <select [(ngModel)]="filters.carburant" (change)="applyFilters()">
+                <option value="">Carburant</option>
+                @for (c of filterOpts.carburants; track c) { <option [value]="c">{{ c }}</option> }
+            </select>
+        </div>
+
+        <div class="filter-dropdown">
+            <select [(ngModel)]="filters.transmission" (change)="applyFilters()">
+                <option value="">Transmission</option>
+                @for (t of filterOpts.transmissions; track t) { <option [value]="t">{{ t }}</option> }
+            </select>
+        </div>
+
+        <div class="filter-dropdown">
+            <select [(ngModel)]="filters.sort" (change)="applyFilters()">
+                <option value="rating">Trier par</option>
+                <option value="prix-asc">Prix croissant</option>
+                <option value="prix-desc">Prix décroissant</option>
+                <option value="recent">Plus récent</option>
+            </select>
+        </div>
+
+        <button class="btn-reset" (click)="resetFilters()">Réinitialiser</button>
+    </div>
+</div>
+
+<div class="mb-4">
+    <span class="text-secondary font-medium">{{ results.length }} véhicules trouvés</span>
+</div>
+
+<div class="content-grid stagger-children">
+    @for (v of results; track v.id) {
+    <app-vehicle-card [vehicle]="v" [showFav]="true"></app-vehicle-card>
+    }
+    @empty {
+    <div class="empty-state">
+        <div class="empty-state-icon">🔍</div>
+        <h3 class="empty-state-title">Aucun véhicule trouvé</h3>
+        <p class="text-sm text-secondary">Essayez de modifier vos filtres pour voir plus de résultats.</p>
+    </div>
+    }
+</div>
