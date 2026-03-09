@@ -24,7 +24,6 @@ export class AjouterVehiculeComponent {
     if (!input.files || input.files.length === 0) return;
 
     const files = Array.from(input.files);
-    this.imagesPreviews = [];
 
     files.forEach(file => {
       if (!file.type.startsWith('image/')) return;
@@ -47,12 +46,13 @@ export class AjouterVehiculeComponent {
       id: this.appData.generateId(),
       proprietaireId: this.appData.currentUser?.id || '',
       ...this.f,
-      disponible: true,
+      disponible: false,
       statut: 'en_attente',
       images: [...this.imagesPreviews],
       documents: 'en_attente',
       rating: 0,
-      totalLocations: 0
+      totalLocations: 0,
+      createdAt: new Date().toISOString()
     });
     this.appData.saveData();
     this.toast.success('Véhicule ajouté !', 'Votre véhicule est en attente de validation');

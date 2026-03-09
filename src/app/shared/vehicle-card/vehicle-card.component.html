@@ -9,6 +9,11 @@
         </div>
         @if (vehicle.images && vehicle.images.length > 0) {
         <img [src]="vehicle.images[0]" [alt]="vehicle.marque + ' ' + vehicle.modele" class="real-image">
+        @if (vehicle.images.length > 1) {
+        <div class="image-count-indicator">
+            <i class="ph ph-copy"></i> 1/{{ vehicle.images.length }}
+        </div>
+        }
         } @else {
         <img [src]="appData.getCarPlaceholder(vehicle.marque + ' ' + vehicle.modele)" [alt]="vehicle.marque">
         }

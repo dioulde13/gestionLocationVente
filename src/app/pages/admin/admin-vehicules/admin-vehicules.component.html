@@ -4,11 +4,15 @@
 </div>
 <div class="panel">
     <div class="table-wrapper">
+        @if (appData.loading) {
+        <app-skeleton [type]="'table'" [rows]="8" [columns]="7"></app-skeleton>
+        } @else {
         <table class="data-table">
             <thead>
                 <tr>
                     <th>Véhicule</th>
                     <th>Propriétaire</th>
+                    <th>Ajouté le</th>
                     <th>Type</th>
                     <th>Prix</th>
                     <th>Disponibilité</th>
@@ -17,13 +21,14 @@
                 </tr>
             </thead>
             <tbody>
-                @for (v of allVehicles; track v.id) {
+                @for (v of pagedVehicles; track v.id) {
                 <tr>
                     <td>
                         <span class="font-medium">{{ v.marque }} {{ v.modele }}</span><br>
                         <span class="text-xs text-tertiary">{{ v.annee }} · {{ v.immatriculation }}</span>
                     </td>
                     <td>{{ getOwner(v.proprietaireId) }}</td>
+                    <td>{{ (v.createdAt || '2025-10-20') | date:'dd/MM/yyyy HH:mm' }}</td>
                     <td>
                         <span class="badge" [class.badge-info]="v.type === 'location'"
                             [class.badge-success]="v.type === 'vente'">
@@ -64,6 +69,16 @@
                 }
             </tbody>
         </table>
+        }
+    </div>
+    <div class="panel-footer flex justify-between items-center p-4 border-t border-color" *ngIf="totalPages > 1">
+        <span class="text-xs text-tertiary">Page {{ currentPage }} sur {{ totalPages }}</span>
+        <div class="flex gap-2">
+            <button class="btn btn-ghost btn-xs" [disabled]="currentPage === 1"
+                (click)="setPage(currentPage - 1)">Précédent</button>
+            <button class="btn btn-ghost btn-xs" [disabled]="currentPage === totalPages"
+                (click)="setPage(currentPage + 1)">Suivant</button>
+        </div>
     </div>
 </div>
 

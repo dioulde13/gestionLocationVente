@@ -18,6 +18,7 @@ import { Vehicle } from '../../../models/models';
 })
 export class DetailVehiculeComponent implements OnInit {
   vehicle: Vehicle | null = null; isFav = false; startDate = ''; endDate = '';
+  activeImageIndex = 0;
   priceCalc = { days: 0, total: 0, perDay: 0 };
   constructor(public appData: AppDataService, public fmt: FormatService, private vehicleService: VehicleService, private toast: ToastService, private route: ActivatedRoute) { }
   ngOnInit() {

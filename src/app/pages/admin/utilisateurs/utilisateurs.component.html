@@ -10,6 +10,9 @@
         </div>
     </div>
     <div class="table-wrapper">
+        @if (appData.loading) {
+        <app-skeleton [type]="'table'" [rows]="8" [columns]="6"></app-skeleton>
+        } @else {
         <table class="data-table">
             <thead>
                 <tr>
@@ -22,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (u of filteredUsers; track u.id) {
+                @for (u of pagedUsers; track u.id) {
                 <tr>
                     <td>
                         <div class="table-user">
@@ -38,7 +41,7 @@
                     <td><span class="badge badge-primary">{{ u.role }}</span></td>
                     <td><app-status-badge [status]="u.statut"></app-status-badge></td>
                     <td><app-status-badge [status]="u.kyc"></app-status-badge></td>
-                    <td>{{ fmt.dateShort(u.dateInscription) }}</td>
+                    <td>{{ (u.dateInscription || '2025-10-20') | date:'dd/MM/yyyy HH:mm' }}</td>
                     <td>
                         <div class="table-actions">
                             <a class="btn btn-ghost btn-xs" [routerLink]="['/admin/utilisateur', u.id]"
@@ -56,6 +59,16 @@
                 }
             </tbody>
         </table>
+        }
+    </div>
+    <div class="panel-footer flex justify-between items-center p-4 border-t border-color" *ngIf="totalPages > 1">
+        <span class="text-xs text-tertiary">Page {{ currentPage }} sur {{ totalPages }}</span>
+        <div class="flex gap-2">
+            <button class="btn btn-ghost btn-xs" [disabled]="currentPage === 1"
+                (click)="setPage(currentPage - 1)">Précédent</button>
+            <button class="btn btn-ghost btn-xs" [disabled]="currentPage === totalPages"
+                (click)="setPage(currentPage + 1)">Suivant</button>
+        </div>
     </div>
 </div>
 

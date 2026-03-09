@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AppDataService } from '../../../services/app-data.service';
 import { FormatService } from '../../../services/format.service';
 import { ToastService } from '../../../services/toast.service';
-import { Demande, Vehicle, User } from '../../../models/models';
 import { StatusBadgeComponent } from '../../../shared/status-badge/status-badge.component';
+import { SkeletonComponent } from '../../../shared/skeleton/skeleton.component';
 
 @Component({
     selector: 'app-proprietaire-demandes',
     standalone: true,
-    imports: [CommonModule, RouterModule, FormsModule, StatusBadgeComponent],
+    imports: [CommonModule, RouterModule, FormsModule, StatusBadgeComponent, SkeletonComponent],
     templateUrl: './demandes.component.html',
     styleUrl: './demandes.component.css'
 })
@@ -20,17 +20,23 @@ export class ProprietaireDemandesComponent implements OnInit {
     filteredDemandes: any[] = [];
     filter = { type: '', status: '' };
 
+    currentPage: number = 1;
+    pageSize: number = 10;
+    totalPages: number = 1;
+
     constructor(
         public appData: AppDataService,
         public fmt: FormatService,
-        private toast: ToastService
+        private toast: ToastService,
+        private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
         this.loadDemandes();
     }
 
-    loadDemandes() {
+    async loadDemandes() {
+        await this.appData.simulateLoading();
         const myVehicleIds = this.appData.vehicules
             .filter(v => v.proprietaireId === this.appData.currentUser?.id)
             .map(v => v.id);
@@ -41,7 +47,12 @@ export class ProprietaireDemandesComponent implements OnInit {
                 ...d,
                 vehicle: this.appData.vehicules.find(v => v.id === d.vehiculeId),
                 client: this.appData.users.find(u => u.id === d.clientId)
-            }));
+            }))
+            .sort((a, b) => {
+                const dateA = new Date(a.createdAt || '2024-01-01').getTime();
+                const dateB = new Date(b.createdAt || '2024-01-01').getTime();
+                return dateB - dateA;
+            });
 
         this.applyFilters();
     }
@@ -52,6 +63,23 @@ export class ProprietaireDemandesComponent implements OnInit {
             const statusMatch = !this.filter.status || d.statut === this.filter.status;
             return typeMatch && statusMatch;
         });
+        this.updatePagination();
+    }
+
+    updatePagination() {
+        this.totalPages = Math.ceil(this.filteredDemandes.length / this.pageSize);
+        if (this.currentPage > this.totalPages) this.currentPage = Math.max(1, this.totalPages);
+        this.cdr.detectChanges();
+    }
+
+    setPage(page: number) {
+        this.currentPage = page;
+        this.updatePagination();
+    }
+
+    get pagedDemandes() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.filteredDemandes.slice(start, start + this.pageSize);
     }
 
     updateStatus(demande: any, newStatus: string) {

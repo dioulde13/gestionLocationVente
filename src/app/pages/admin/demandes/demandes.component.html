@@ -12,19 +12,23 @@
 
 <div class="panel premium-panel">
     <div class="table-wrapper">
+        @if (appData.loading) {
+        <app-skeleton [type]="'table'" [rows]="8" [columns]="7"></app-skeleton>
+        } @else {
         <table class="data-table">
             <thead>
                 <tr>
                     <th>CLIENT</th>
                     <th>VÉHICULE</th>
                     <th>TYPE</th>
+                    <th>DATE</th>
                     <th>PROPRIÉTAIRE</th>
                     <th>STATUT</th>
                     <th>ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
-                @for (d of demandes; track d.id) {
+                @for (d of pagedDemandes; track d.id) {
                 @let c = getUser(d.clientId);
                 @let v = getVehicle(d.vehiculeId);
                 @let p = getOwner(d.vehiculeId);
@@ -52,6 +56,9 @@
                         <span class="type-badge" [class.rent]="d.type === 'location'" [class.sell]="d.type === 'achat'">
                             {{ d.type === 'location' ? 'LOCATION' : 'ACHAT' }}
                         </span>
+                    </td>
+                    <td><span class="text-xs text-secondary font-medium">{{ (d.createdAt || '2025-10-20') |
+                            date:'dd/MM/yyyy HH:mm' }}</span>
                     </td>
                     <td>
                         <div class="owner-info">
@@ -83,7 +90,7 @@
                 </tr>
                 } @empty {
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         <div class="empty-state">
                             <div class="empty-state-icon">📩</div>
                             <h3 class="empty-state-title">Aucune demande</h3>
@@ -94,5 +101,15 @@
                 }
             </tbody>
         </table>
+        }
+    </div>
+    <div class="panel-footer flex justify-between items-center p-4 border-t border-color" *ngIf="totalPages > 1">
+        <span class="text-xs text-tertiary">Page {{ currentPage }} sur {{ totalPages }}</span>
+        <div class="flex gap-2">
+            <button class="btn btn-ghost btn-xs" [disabled]="currentPage === 1"
+                (click)="setPage(currentPage - 1)">Précédent</button>
+            <button class="btn btn-ghost btn-xs" [disabled]="currentPage === totalPages"
+                (click)="setPage(currentPage + 1)">Suivant</button>
+        </div>
     </div>
 </div>

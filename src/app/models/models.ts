@@ -45,6 +45,7 @@ export interface Vehicle {
   documents: string;
   rating: number;
   totalLocations: number;
+  createdAt?: string;
 }
 
 export interface Location {

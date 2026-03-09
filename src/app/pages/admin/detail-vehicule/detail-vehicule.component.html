@@ -11,13 +11,11 @@
     <!-- Main Info -->
     <div class="col-span-2 space-y-6">
         <div class="card overflow-hidden">
-            <div class="aspect-video bg-secondary relative">
-                <img *ngIf="vehicle?.images?.[0]" [src]="vehicle.images[0]" class="w-full h-full object-cover">
-                <div *ngIf="!vehicle?.images?.[0]" class="w-full h-full flex items-center justify-center text-tertiary">
-                    <i class="ph ph-image text-6xl"></i>
-                </div>
-                <div class="absolute top-4 right-4">
-                    <app-status-badge [status]="vehicle?.statut"></app-status-badge>
+            <div class="admin-gallery">
+                <div *ngIf="vehicle?.images?.length > 0" class="thumbnails-grid">
+                    <div *ngFor="let img of vehicle.images; let i = index" class="thumb-item">
+                        <img [src]="img">
+                    </div>
                 </div>
             </div>
             <div class="card-body">

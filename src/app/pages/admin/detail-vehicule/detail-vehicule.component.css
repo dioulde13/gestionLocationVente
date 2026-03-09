@@ -38,3 +38,26 @@
         grid-column: span 1;
     }
 }
+
+.admin-gallery {
+    padding: 1.5rem;
+}
+
+.thumbnails-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.thumb-item img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    cursor: default;
+    border: 2px solid var(--border-color);
+}
+
+.thumbnails-strip::-webkit-scrollbar {
+    height: 4px;
+}

@@ -17,6 +17,7 @@ import { ModalService } from '../../../services/modal.service';
 export class DetailVehiculeComponent implements OnInit {
     vehicle: any = null;
     owner: any = null;
+    activeImageIndex = 0;
 
     constructor(
         public appData: AppDataService,

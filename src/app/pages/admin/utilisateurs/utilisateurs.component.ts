@@ -7,17 +7,21 @@ import { FormatService } from '../../../services/format.service';
 import { ToastService } from '../../../services/toast.service';
 import { StatusBadgeComponent } from '../../../shared/status-badge/status-badge.component';
 import { ModalService } from '../../../services/modal.service';
+import { SkeletonComponent } from '../../../shared/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-utilisateurs',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, StatusBadgeComponent],
+  imports: [CommonModule, FormsModule, RouterModule, StatusBadgeComponent, SkeletonComponent],
   templateUrl: './utilisateurs.component.html',
   styleUrl: './utilisateurs.component.css'
 })
 export class UtilisateursComponent implements OnInit {
   users: any[] = [];
   searchTerm: string = '';
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 1;
 
   constructor(
     public appData: AppDataService,
@@ -29,17 +33,44 @@ export class UtilisateursComponent implements OnInit {
 
   ngOnInit() { this.loadUsers(); }
 
-  loadUsers() {
-    this.users = this.appData.users.filter(u => u.statut !== 'banni');
+  async loadUsers() {
+    await this.appData.simulateLoading();
+    this.users = this.appData.users
+      .filter(u => u.statut !== 'banni')
+      .sort((a, b) => {
+        const dateA = new Date(a.dateInscription || '2024-01-01').getTime();
+        const dateB = new Date(b.dateInscription || '2024-01-01').getTime();
+        return dateB - dateA;
+      });
+    this.updatePagination();
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(this.totalFilteredItems / this.pageSize);
+    if (this.currentPage > this.totalPages) this.currentPage = Math.max(1, this.totalPages);
     this.cdr.detectChanges();
   }
 
-  get filteredUsers() {
+  setPage(page: number) {
+    this.currentPage = page;
+    this.updatePagination();
+  }
+
+  get totalFilteredItems(): number {
+    return this.allFilteredUsers.length;
+  }
+
+  get allFilteredUsers() {
     return this.users.filter(u =>
       u.prenom.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       u.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       u.email.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  }
+
+  get pagedUsers() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.allFilteredUsers.slice(start, start + this.pageSize);
   }
 
   async askToggleStatus(user: any) {

@@ -24,11 +24,15 @@
 
 <div class="panel">
     <div class="table-wrapper">
+        @if (appData.loading) {
+        <app-skeleton [type]="'table'" [rows]="5" [columns]="9"></app-skeleton>
+        } @else {
         <table class="data-table">
             <thead>
                 <tr>
                     <th>Véhicule</th>
                     <th>Immatriculation</th>
+                    <th>Date d'ajout</th>
                     <th>Type</th>
                     <th>Prix</th>
                     <th>Disponibilité</th>
@@ -38,13 +42,14 @@
                 </tr>
             </thead>
             <tbody>
-                @for (v of filteredVehicles; track v.id) {
+                @for (v of pagedVehicles; track v.id) {
                 <tr>
                     <td>
                         <span class="font-medium">{{ v.marque }} {{ v.modele }}</span><br>
                         <span class="text-xs text-tertiary">{{ v.annee }}</span>
                     </td>
                     <td>{{ v.immatriculation }}</td>
+                    <td>{{ (v.createdAt || '2025-10-20') | date:'dd/MM/yyyy' }}</td>
                     <td><span class="badge badge-info">{{ v.type }}</span></td>
                     <td>
                         {{ v.type === 'vente' ? fmt.currency(v.prixVente || 0) : fmt.currency(v.prixJour || 0) }}
@@ -73,13 +78,14 @@
                 </tr>
                 } @empty {
                 <tr>
-                    <td colspan="8" class="text-center py-12 text-tertiary">
+                    <td colspan="9" class="text-center py-12 text-tertiary">
                         Aucun véhicule ne correspond aux filtres.
                     </td>
                 </tr>
                 }
             </tbody>
         </table>
+        }
     </div>
 </div>
 

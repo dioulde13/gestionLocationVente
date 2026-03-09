@@ -25,12 +25,16 @@
 </div>
 
 <div class="table-container animate-fade-in">
+    @if (appData.loading) {
+    <app-skeleton [type]="'table'" [rows]="5" [columns]="8"></app-skeleton>
+    } @else {
     <table class="modern-table">
         <thead>
             <tr>
                 <th>Véhicule</th>
                 <th>Client</th>
                 <th>Type</th>
+                <th>Date</th>
                 <th>Dates / Détails</th>
                 <th>Prix</th>
                 <th>Statut</th>
@@ -38,7 +42,7 @@
             </tr>
         </thead>
         <tbody>
-            @for (demande of filteredDemandes; track demande.id) {
+            @for (demande of pagedDemandes; track demande.id) {
             <tr>
                 <td>
                     <div class="vehicle-cell">
@@ -61,6 +65,9 @@
                         [class.buy]="demande.type === 'achat'">
                         {{ demande.type === 'location' ? 'Location' : 'Achat' }}
                     </span>
+                </td>
+                <td><span class="text-xs font-bold text-slate-500">{{ (demande.createdAt || '2025-10-20') |
+                        date:'dd/MM/yyyy HH:mm' }}</span>
                 </td>
                 <td>
                     @if (demande.type === 'location') {
@@ -97,7 +104,7 @@
             </tr>
             } @empty {
             <tr>
-                <td colspan="7" class="empty-row">
+                <td colspan="8" class="empty-row">
                     <i class="ph ph-mask-sad text-4xl mb-2"></i>
                     <p>Aucune demande trouvée.</p>
                 </td>
@@ -105,4 +112,14 @@
             }
         </tbody>
     </table>
+    }
+    <div class="flex justify-between items-center p-4 border-t border-slate-100" *ngIf="totalPages > 1">
+        <span class="text-xs text-slate-400">Page {{ currentPage }} sur {{ totalPages }}</span>
+        <div class="flex gap-2">
+            <button class="btn btn-ghost btn-xs text-xs px-2 py-1" [disabled]="currentPage === 1"
+                (click)="setPage(currentPage - 1)">Précédent</button>
+            <button class="btn btn-ghost btn-xs text-xs px-2 py-1" [disabled]="currentPage === totalPages"
+                (click)="setPage(currentPage + 1)">Suivant</button>
+        </div>
+    </div>
 </div>

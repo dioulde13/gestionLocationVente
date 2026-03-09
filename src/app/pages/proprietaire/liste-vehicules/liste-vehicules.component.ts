@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppDataService } from '../../../services/app-data.service';
@@ -7,11 +7,12 @@ import { ToastService } from '../../../services/toast.service';
 import { FormsModule } from '@angular/forms';
 import { StatusBadgeComponent } from '../../../shared/status-badge/status-badge.component';
 import { ModalService } from '../../../services/modal.service';
+import { SkeletonComponent } from '../../../shared/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-liste-vehicules',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, StatusBadgeComponent],
+  imports: [CommonModule, RouterModule, FormsModule, StatusBadgeComponent, SkeletonComponent],
   templateUrl: './liste-vehicules.component.html',
   styleUrl: './liste-vehicules.component.css'
 })
@@ -19,16 +20,27 @@ export class ListeVehiculesComponent implements OnInit {
   vehicles: any[] = [];
   filteredVehicles: any[] = [];
   filter = { type: '', status: '' };
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 1;
 
   constructor(
     public appData: AppDataService,
     public fmt: FormatService,
     private toast: ToastService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private cdr: ChangeDetectorRef
   ) { }
   ngOnInit() { this.loadVehicles(); }
-  loadVehicles() {
-    this.vehicles = this.appData.vehicules.filter(v => v.proprietaireId === this.appData.currentUser?.id);
+  async loadVehicles() {
+    await this.appData.simulateLoading();
+    this.vehicles = this.appData.vehicules
+      .filter(v => v.proprietaireId === this.appData.currentUser?.id)
+      .sort((a, b) => {
+        const dateA = new Date(a.createdAt || '2024-01-01').getTime();
+        const dateB = new Date(b.createdAt || '2024-01-01').getTime();
+        return dateB - dateA;
+      });
     this.applyFilters();
   }
 
@@ -38,7 +50,25 @@ export class ListeVehiculesComponent implements OnInit {
       const statusMatch = !this.filter.status || this.getTransactionStatus(v).code === this.filter.status;
       return typeMatch && statusMatch;
     });
+    this.updatePagination();
   }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(this.filteredVehicles.length / this.pageSize);
+    if (this.currentPage > this.totalPages) this.currentPage = Math.max(1, this.totalPages);
+    this.cdr.detectChanges();
+  }
+
+  setPage(page: number) {
+    this.currentPage = page;
+    this.updatePagination();
+  }
+
+  get pagedVehicles() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredVehicles.slice(start, start + this.pageSize);
+  }
+
 
   getTransactionStatus(vehicle: any): { label: string, color: string, code: string } {
     const d = this.appData.demandes.find(x => x.vehiculeId === vehicle.id && x.statut !== 'refuse');

@@ -9,10 +9,11 @@
 
 <div class="detail-container animate-fade-in">
     <!-- Header Image Section -->
-    <div class="detail-header-image mb-8">
-        <div class="image-inner">
+    <div class="detail-gallery mb-8">
+        <div class="main-image-holder">
             @if (vehicle.images && vehicle.images.length > 0) {
-            <img [src]="vehicle.images[0]" [alt]="vehicle.marque + ' ' + vehicle.modele" class="real-image">
+            <img [src]="vehicle.images[activeImageIndex]" [alt]="vehicle.marque + ' ' + vehicle.modele"
+                class="main-img">
             } @else {
             <img [src]="appData.getCarPlaceholder(vehicle.marque + ' ' + vehicle.modele)" [alt]="vehicle.marque">
             }
@@ -24,6 +25,15 @@
                 </span>
             </div>
         </div>
+        @if (vehicle.images && vehicle.images.length > 1) {
+        <div class="thumbnails-strip mt-4">
+            @for (img of vehicle.images; track $index) {
+            <div class="thumb-item" [class.active]="$index === activeImageIndex" (click)="activeImageIndex = $index">
+                <img [src]="img" alt="Thumbnail {{ $index + 1 }}">
+            </div>
+            }
+        </div>
+        }
     </div>
 
     <!-- Main Content Layout -->

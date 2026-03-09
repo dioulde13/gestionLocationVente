@@ -1,0 +1,64 @@
+<div class="skeleton-container" [ngClass]="'skeleton-' + type">
+    @if (type === 'table') {
+    <div class="skeleton-table">
+        <div class="skeleton-thead">
+            <div class="skeleton-tr">
+                @for (c of colArray; track $index) {
+                <div class="skeleton-th"></div>
+                }
+            </div>
+        </div>
+        <div class="skeleton-tbody">
+            @for (r of rowArray; track $index) {
+            <div class="skeleton-tr">
+                @for (c of colArray; track $index) {
+                <div class="skeleton-td">
+                    <div class="skeleton-box"></div>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+    }
+
+    @if (type === 'card') {
+    <div class="skeleton-cards-grid">
+        @for (r of rowArray; track $index) {
+        <div class="skeleton-card">
+            <div class="skeleton-card-img"></div>
+            <div class="skeleton-card-content">
+                <div class="skeleton-box title"></div>
+                <div class="skeleton-box subtitle"></div>
+                <div class="skeleton-box price"></div>
+                <div class="skeleton-footer">
+                    <div class="skeleton-box btn"></div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+
+    @if (type === 'list') {
+    <div class="skeleton-list">
+        @for (r of rowArray; track $index) {
+        <div class="skeleton-list-item">
+            <div class="skeleton-avatar"></div>
+            <div class="skeleton-item-content">
+                <div class="skeleton-box title"></div>
+                <div class="skeleton-box subtitle"></div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+
+    @if (type === 'text') {
+    <div class="skeleton-text-stack">
+        @for (r of rowArray; track $index) {
+        <div class="skeleton-box line" [style.width.%]="80 + (r * 5 % 20)"></div>
+        }
+    </div>
+    }
+</div>

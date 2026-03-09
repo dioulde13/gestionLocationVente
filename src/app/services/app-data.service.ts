@@ -15,6 +15,17 @@ export class AppDataService {
     incidents: Incident[];
     auditLog: AuditLog[];
     demandes: Demande[];
+    loading: boolean = false;
+
+    simulateLoading(ms: number = 800): Promise<void> {
+        this.loading = true;
+        return new Promise(resolve => {
+            setTimeout(() => {
+                this.loading = false;
+                resolve();
+            }, ms);
+        });
+    }
 
     readonly OTP_CODES: Record<string, string> = {
         'admin@autoloc.com': '1234',
