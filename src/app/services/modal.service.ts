@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export interface ModalConfig {
@@ -13,29 +13,26 @@ export interface ModalConfig {
     providedIn: 'root'
 })
 export class ModalService {
-    private _isOpen = false;
-    private _config: ModalConfig = {
+    isOpen = signal<boolean>(false);
+    config = signal<ModalConfig>({
         title: 'Confirmation',
         message: 'Êtes-vous sûr de vouloir effectuer cette action ?',
         confirmText: 'Confirmer',
         cancelText: 'Annuler',
         type: 'info'
-    };
+    });
 
     private confirmSubject = new Subject<boolean>();
 
-    get isOpen() { return this._isOpen; }
-    get config() { return this._config; }
-
     confirm(config: ModalConfig): Promise<boolean> {
-        this._config = {
+        this.config.set({
             title: config.title,
             message: config.message,
             confirmText: config.confirmText || 'Confirmer',
             cancelText: config.cancelText || 'Annuler',
             type: config.type || 'info'
-        };
-        this._isOpen = true;
+        });
+        this.isOpen.set(true);
 
         return new Promise((resolve) => {
             const sub = this.confirmSubject.subscribe(result => {
@@ -46,12 +43,12 @@ export class ModalService {
     }
 
     onConfirm() {
-        this._isOpen = false;
+        this.isOpen.set(false);
         this.confirmSubject.next(true);
     }
 
     onCancel() {
-        this._isOpen = false;
+        this.isOpen.set(false);
         this.confirmSubject.next(false);
     }
 }

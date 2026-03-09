@@ -108,6 +108,35 @@
                 <label class="form-label">Description</label>
                 <textarea class="form-input" rows="3" [(ngModel)]="f.description" name="desc"></textarea>
             </div>
+
+            <!-- Section Upload Photo -->
+            <div class="form-group mt-6">
+                <label class="form-label">Photos du véhicule</label>
+                <div class="upload-zone" (click)="fileInput.click()" (dragover)="$event.preventDefault()"
+                    (drop)="onFileSelected($event)">
+                    <input #fileInput type="file" accept="image/*" multiple (change)="onFileSelected($event)"
+                        style="display:none">
+                    <div class="upload-icon">
+                        <i class="ph ph-camera-plus"></i>
+                    </div>
+                    <p class="upload-text">Cliquez ou glissez vos photos ici</p>
+                    <p class="upload-hint">JPG, PNG, WEBP — Plusieurs photos acceptées</p>
+                </div>
+
+                @if (imagesPreviews.length > 0) {
+                <div class="images-preview-grid mt-4">
+                    @for (img of imagesPreviews; track $index) {
+                    <div class="preview-item">
+                        <img [src]="img" alt="Aperçu photo {{ $index + 1 }}">
+                        <button type="button" class="remove-img-btn" (click)="removeImage($index)" title="Supprimer">
+                            <i class="ph ph-x"></i>
+                        </button>
+                    </div>
+                    }
+                </div>
+                }
+            </div>
+
             <button type="submit" class="btn btn-primary btn-lg mt-4">Ajouter le véhicule</button>
         </form>
     </div>
